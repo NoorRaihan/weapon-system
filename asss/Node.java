@@ -1,33 +1,22 @@
+public class Node {
 
-/**
- * Write a description of class Node here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
-public class Node
-{
-    // instance variables - replace the example below with your own
-    private int x;
+    Object data;
+    Node next;
 
-    /**
-     * Constructor for objects of class Node
-     */
-    public Node()
-    {
-        // initialise instance variables
-        x = 0;
+    public Node() {
+        data = next = null;
     }
 
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
-    {
-        // put your code here
-        return x + y;
+    public Node(Object data) {
+        this.data = data;
+        this.next = null;
     }
+
+    public Node(Object data, Node next) {
+        this.data = data;
+        this.next = next;
+    }
+
+    public Object getData() {return data;}
+    public Object getNext() {return next;}
 }
