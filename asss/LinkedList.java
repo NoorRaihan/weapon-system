@@ -1,33 +1,98 @@
+public class LinkedList {
 
-/**
- * Write a description of class LinkedList here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
-public class LinkedList
-{
-    // instance variables - replace the example below with your own
-    private int x;
+    Node head;
+    Node tail;
+    Node curr;
 
-    /**
-     * Constructor for objects of class LinkedList
-     */
-    public LinkedList()
-    {
-        // initialise instance variables
-        x = 0;
+    public LinkedList() {
+        this.head = this.curr = this.tail = null;
     }
 
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
-    {
-        // put your code here
-        return x + y;
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    public Object getHead() {
+        if(isEmpty()) {
+            throw new EmptyListException();
+        }else{
+            curr = head;
+            return curr.data;
+        }
+    }
+
+    public Object getTail() {
+        if(isEmpty()) {
+            throw new EmptyListException();
+        }else {
+            curr = tail;
+            return curr.data;
+        }
+    }
+
+    public Object getNext() {
+        if(isEmpty()){
+            throw new EmptyListException();
+        }else if(curr != tail){
+            curr = curr.next;
+            return curr.data;
+        }else {
+            return null;
+        }
+    }
+
+    public void insertAtFront(Object obj) {
+        if(isEmpty()) {
+            head = tail = new Node(obj);
+        }else {
+            head = new Node(obj,head);
+        }
+    }
+
+    public void insertAtBack(Object obj) {
+        if(isEmpty()) {
+            head = tail = new Node(obj);
+        }else{
+            tail = tail.next = new Node(obj);                                 
+        }
+    }
+
+    public Object removeFront() {
+        
+        Object remove;
+        if(isEmpty()) {
+            throw new EmptyListException();
+        }
+        
+        remove = head.data;
+
+        if(head.equals(tail)) {
+            head = tail = null;
+        }else {
+            head = head.next;
+        }
+        return remove;
+    }
+
+    public Object removeBack() {
+        Object remove;
+
+        if(isEmpty()) {
+            throw new EmptyListException();
+        }
+        remove = tail.data;
+
+        if(tail.equals(head)) {
+            tail = head = null;
+        }else {
+
+            Node currN = head;
+            while(currN != tail) {
+                currN = currN.next;
+            }
+            tail = currN;
+            tail.next = null;
+        }
+        return remove;
     }
 }
