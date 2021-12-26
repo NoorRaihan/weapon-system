@@ -24,7 +24,129 @@ public class Main {
         return flag;
     }
 
-     //delayed the process
+    //insert category
+    static void addCategory(){
+        System.out.print("\u000C");
+        Scanner in = new Scanner(System.in);
+
+        Queue data = new Queue();
+        char choice = 'y';
+        while(choice == 'y' || choice == 'Y')
+        {
+            boolean check =  true;
+            String cID = null;
+            String cName = null;
+
+            while(check){
+                System.out.print("\nCategory ID : ");
+                cID = in.nextLine();
+                boolean exist = Category.checkExist(cID);
+                if(exist)
+                {
+                    System.out.println("Already exist !");
+                }
+                else
+                {
+                    check = false;
+                    break;
+                }
+            }
+
+            System.out.print("Category Name : ");
+            cName = in.nextLine();
+
+            Category obj = new Category(cID, cName);
+            data.enqueue(obj);
+
+            System.out.println("Want to add more Category ? \n[Y] - yessir \n[N] - nossir");
+            choice = in.nextLine().charAt(0);
+            
+        }
+        //add function go here lmbfao
+        System.out.println("Are you confirm ?");
+        choice = in.nextLine().charAt(0);
+        if(choice == 'y' || choice == 'Y' )
+        {
+            Category.add(data);
+            System.out.println("Succcessfully saved !");
+        }
+        else
+            addCategory();
+    }
+
+    //insert weapon 
+    static void addWeapon(){
+        System.out.print("\u000C");
+        Scanner in = new Scanner(System.in);
+
+        Queue data = new Queue();
+        char choice = 'y';
+        while(choice == 'y' || choice == 'Y')
+        {
+            boolean check =  true;
+            String cID = null;
+            String wID = null;
+            String wName = null;
+            double wPrice = 0;
+            Category catobj = null;
+            String temp = null;
+
+            while(check){
+                System.out.print("\nWeapon ID : ");
+                wID = in.nextLine();
+                boolean exist = Weapon.checkExist(wID);
+                if(exist)
+                {
+                    System.out.println("Already exist !");
+                }
+                else if(wID.equalsIgnoreCase(temp))
+                {
+                    System.out.println("Already inserted !");
+                }
+                else
+                {
+                    temp = wID;
+                    check = false;
+                    break;
+                }
+            }
+
+            while(catobj == null){
+                System.out.print("Category ID : ");
+                cID = in.nextLine();
+                catobj = Category.search(cID, null);
+                if(catobj == null)
+                {
+                    System.out.println("Category is not exist !");
+                }
+                
+            }
+
+            System.out.print("Weapon Name : ");
+            wName = in.nextLine();
+
+            System.out.print("Weapon Price : RM");
+            wPrice = Double.parseDouble(in.nextLine());
+
+            Weapon obj = new Weapon(catobj, wID, wName, wPrice);
+            data.enqueue(obj);
+
+            System.out.println("Want to add more Weapon ? \n[Y] - yessir \n[N] - nossir");
+            choice = in.nextLine().charAt(0);
+        }
+
+        System.out.println("Are you confirm ?");
+        choice = in.nextLine().charAt(0);
+        if(choice == 'y' || choice == 'Y' )
+        {
+            Weapon.add(data);
+            System.out.println("Succcessfully saved !");
+        }
+        else
+            addWeapon();
+    }
+
+    //delayed the process
      static void tunggu(int ms) {
         try {
             Thread.sleep(ms);
@@ -134,10 +256,12 @@ public class Main {
                 case 1:
                     notValid = false;
                     //register new category go here
+                    addCategory();
                     break;
                 case 2:
                     notValid = false;
                     //register new weapon go here
+                    addWeapon();
                     break;
                 case 3:
                     notValid = false;

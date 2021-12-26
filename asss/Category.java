@@ -10,25 +10,25 @@ import java.util.StringTokenizer;
 
 public class Category {
 
-    private String catID;
-    private String catName;
+    private String cID;
+    private String cName;
 
     //constructor
     public Category() { this(null,null); }
 
-    public Category(String catID, String catName) {
-        this.catID = catID;
-        this.catName = catName;
+    public Category(String cID, String cName) {
+        this.cID = cID;
+        this.cName = cName;
     }
 
     //accessor
-    public String getCatID() {return catID;}
-    public String getCatName() {return catName;}
+    public String getCID() {return cID;}
+    public String getCName() {return cName;}
 
     //mutator
-    public void setAll(String catID, String catName) {
-        this.catID = catID;
-        this.catName = catName;
+    public void setAll(String cID, String cName) {
+        this.cID = cID;
+        this.cName = cName;
     }
     
     //checking if the ID already existed or not
@@ -66,9 +66,56 @@ public class Category {
         return flag;
     }
 
+    //add category to text file
+    static void add(Queue data){
+
+        while(!data.isEmpty())
+        {
+            Category obj = (Category)data.dequeue();
+            try{
+                PrintWriter add = new PrintWriter(new BufferedWriter(new FileWriter("category.txt", true)));
+                add.println(obj.getCID() + ";" + obj.getCName());
+
+                add.close();
+                add.flush();
+            }
+            catch(IOException ioe){
+                System.err.println(ioe);
+            }
+        }
+    }
+
+      //search the category info by ID
+    static Category search(String id, String name) { //to search and return category name
+        
+        Category dat = null;
+        try {
+            BufferedReader in = new BufferedReader(new FileReader("category.txt"));
+            String data = in.readLine();
+
+            while(data != null) {
+                StringTokenizer inputs = new StringTokenizer(data, ";");
+
+                String catID =  inputs.nextToken();
+                String catName = inputs.nextToken();
+
+                if(catID.equalsIgnoreCase(id) || catName.equalsIgnoreCase(name)) {
+                    dat = new Category(catID,catName);
+                    break;
+                }
+                data = in.readLine();
+            }
+            in.close();
+        }catch (IOException ioe) {
+            System.err.println("Something went wrong!\n" + ioe);
+        }
+        return dat;
+    }
+
+
     //toString
     public String toString() {
-        return "\nCategory ID: " + catID + "\nCategory Name: " + catName;
+        return "\nCategory ID: " + cID + "\nCategory Name: " + cName;
     }
 
 

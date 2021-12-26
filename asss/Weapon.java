@@ -17,7 +17,7 @@ public class Weapon extends Category {
     public Weapon() { this(null,null,null,0.00); }
 
     public Weapon(Category catObj, String weaponID, String weaponName, double weaponPrice) {
-        super(catObj.getCatID(),catObj.getCatName());
+        super(catObj.getCID(),catObj.getCName());
         this.weaponID = weaponID;
         this.weaponName = weaponName;
         this.weaponPrice = weaponPrice;
@@ -68,11 +68,29 @@ public class Weapon extends Category {
         return flag;
     }
 
+    //add weapon to text file
+    static void add(Queue data){
+
+        while(!data.isEmpty())
+        {
+            Weapon obj = (Weapon)data.dequeue();
+            try{
+                PrintWriter add = new PrintWriter(new BufferedWriter(new FileWriter("weapon.txt", true)));
+                add.println(obj.getWeaponID() + ";" + obj.getWeaponName() + ";" + obj.getCID() + ";" + obj.getWeaponPrice());
+
+                add.close();
+                add.flush();
+            }
+            catch(IOException ioe){
+                System.err.println(ioe);
+            }
+        }
+    }
 
     //toString
     public String toString() {
         return "\nWeapon ID: " + weaponID +
-        "\nWeapon Category ID: " + super.getCatID() + "(" + super.getCatName() + ")" +
+        "\nWeapon Category ID: " + super.getCID() + "(" + super.getCName() + ")" +
         "\nWeapon Name: " + weaponName +
         "\nWeapon Price : RM" + weaponPrice;
     }
