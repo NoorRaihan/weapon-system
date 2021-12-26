@@ -34,11 +34,11 @@ public class Weapon extends Category {
     public void setWeaponPrice(double weaponPrice) { this.weaponPrice = weaponPrice; }
 
 
-     //check the product ID already exist or not in the textfile
+     //check the weapon ID already exist or not in the textfile
      static boolean checkExist(String ID) { //check if product exist or not
         boolean flag = false;
 
-        File chkfile = new File("product.txt");
+        File chkfile = new File("weapon.txt");
         boolean exists = chkfile.exists();
 
         if(exists) {
