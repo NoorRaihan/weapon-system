@@ -10,25 +10,25 @@ import java.util.StringTokenizer;
 
 public class Category {
 
-    private String catID;
-    private String catName;
+    private String cID;
+    private String cName;
 
     //constructor
     public Category() { this(null,null); }
 
-    public Category(String catID, String catName) {
-        this.catID = catID;
-        this.catName = catName;
+    public Category(String cID, String cName) {
+        this.cID = cID;
+        this.cName = cName;
     }
 
     //accessor
-    public String getCatID() {return catID;}
-    public String getCatName() {return catName;}
+    public String getCID() {return cID;}
+    public String getCName() {return cName;}
 
     //mutator
-    public void setAll(String catID, String catName) {
-        this.catID = catID;
-        this.catName = catName;
+    public void setAll(String cID, String cName) {
+        this.cID = cID;
+        this.cName = cName;
     }
     
     //checking if the ID already existed or not
@@ -66,9 +66,28 @@ public class Category {
         return flag;
     }
 
+    //add category to text file
+    static void add(Queue data){
+
+        while(!data.isEmpty())
+        {
+            Category obj = (Category)data.dequeue();
+            try{
+                PrintWriter add = new PrintWriter(new BufferedWriter(new FileWriter("category.txt", true)));
+                add.println(obj.getCID() + ";" + obj.getCName());
+
+                add.close();
+                add.flush();
+            }
+            catch(IOException ioe){
+                System.err.println(ioe);
+            }
+        }
+    }
+
     //toString
     public String toString() {
-        return "\nCategory ID: " + catID + "\nCategory Name: " + catName;
+        return "\nCategory ID: " + cID + "\nCategory Name: " + cName;
     }
 
 

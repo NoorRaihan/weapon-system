@@ -17,7 +17,7 @@ public class Weapon extends Category {
     public Weapon() { this(null,null,null,0.00); }
 
     public Weapon(Category catObj, String weaponID, String weaponName, double weaponPrice) {
-        super(catObj.getCatID(),catObj.getCatName());
+        super(catObj.getCID(),catObj.getCName());
         this.weaponID = weaponID;
         this.weaponName = weaponName;
         this.weaponPrice = weaponPrice;
@@ -72,7 +72,7 @@ public class Weapon extends Category {
     //toString
     public String toString() {
         return "\nWeapon ID: " + weaponID +
-        "\nWeapon Category ID: " + super.getCatID() + "(" + super.getCatName() + ")" +
+        "\nWeapon Category ID: " + super.getCID() + "(" + super.getCName() + ")" +
         "\nWeapon Name: " + weaponName +
         "\nWeapon Price : RM" + weaponPrice;
     }
