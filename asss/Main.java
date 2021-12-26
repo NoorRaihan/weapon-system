@@ -43,54 +43,84 @@ public class Main {
         System.out.print("\u000C");
         Scanner in = new Scanner(System.in);
 
+        int count = Category.getAllCategory().size();
         Queue data = new Queue();
         LinkedList tempID = new LinkedList();
         char choice = 'y';
+        boolean check =  true;
+        String cID = null;
+        String cName = null;
+
         while(choice == 'y' || choice == 'Y')
         {
-            boolean check =  true;
-            String cID = null;
-            String cName = null;
             
-            while(check){
-                System.out.print("\nCategory ID : ");
-                cID = in.nextLine();
-                boolean exist = Category.checkExist(cID);
-                boolean inserted = inputValidate(tempID, cID);
+            
+            if(count > 4)
+            {
+                System.out.println("Ehem..Can't exceed 5 categories <(｀^´)>");
+                break;
+            }
+            else
+            {
+                while(check){
+                    System.out.print("\nCategory ID : ");
+                    cID = in.nextLine();
+                    boolean exist = Category.checkExist(cID);
+                    boolean inserted = inputValidate(tempID, cID);
+    
+                    if(exist || inserted)
+                    {
+                        System.out.println("Already exist !");
+                    }
+                    else
+                    {
+                        tempID.insertAtBack(cID);
+                        check = false;
+                        break;
+                    }
+                }
+    
+                System.out.print("Category Name : ");
+                cName = in.nextLine();
+    
+                Category obj = new Category(cID, cName);
+                data.enqueue(obj);
 
-                if(exist || inserted)
-                {
-                    System.out.println("Already exist !");
-                }
-                else
-                {
-                    tempID.insertAtBack(cID);
-                    check = false;
-                    break;
-                }
+                System.out.println("Want to add more Category ? \n[Y] - yessir \n[N] - nossir");
+                choice = in.nextLine().charAt(0);
+
             }
 
-            System.out.print("Category Name : ");
-            cName = in.nextLine();
+            count++;
 
-            Category obj = new Category(cID, cName);
-            data.enqueue(obj);
+            // System.out.println("Want to add more Category ? \n[Y] - yessir \n[N] - nossir");
+            // choice = in.nextLine().charAt(0);
 
-            System.out.println("Want to add more Category ? \n[Y] - yessir \n[N] - nossir");
-            choice = in.nextLine().charAt(0);
             
+        
         }
 
         //add function go here lmbfao
-        System.out.println("Are you confirm ?");
-        choice = in.nextLine().charAt(0);
-        if(choice == 'y' || choice == 'Y' )
+        if(cID != null)
         {
-            Category.add(data);
-            System.out.println("Succcessfully saved !");
+            System.out.println("Are you confirm ? (⌐■_■)\n[Y] - yessir \n[N] - nossir");
+            choice = in.nextLine().charAt(0);
+            if(choice == 'y' || choice == 'Y' )
+            {
+                Category.add(data);
+                System.out.println("Succcessfully saved !");
+                pressAnyKey();
+                adminMenu();
+            }
+            else
+                adminMenu();
         }
         else
-            addCategory();
+        {
+            pressAnyKey();
+            adminMenu();
+        }
+        
     }
 
     //insert weapon 
@@ -152,15 +182,17 @@ public class Main {
             choice = in.nextLine().charAt(0);
         }
 
-        System.out.println("Are you confirm ?");
+        System.out.println("Are you confirm ? (⌐■_■)\n[Y] - yessir \n[N] - nossir");
         choice = in.nextLine().charAt(0);
         if(choice == 'y' || choice == 'Y' )
         {
             Weapon.add(data);
             System.out.println("Succcessfully saved !");
+            pressAnyKey();
+            adminMenu();
         }
         else
-            addWeapon();
+            adminMenu();
     }
 
     //delayed the process
@@ -174,7 +206,7 @@ public class Main {
 
     //for press any key to continue.... hehe
     static void pressAnyKey() {
-        System.out.println("Press Enter key to continue...");
+        System.out.println("\nPress Enter key to continue... <(￣︶￣)>");
         try
         {
             System.in.read();
