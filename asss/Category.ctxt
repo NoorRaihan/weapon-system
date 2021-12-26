@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=Category
+comment1.params=
+comment1.target=Category()
+comment2.params=cID\ cName
+comment2.target=Category(java.lang.String,\ java.lang.String)
+comment3.params=
+comment3.target=java.lang.String\ getCID()
+comment4.params=
+comment4.target=java.lang.String\ getCName()
+comment5.params=cID\ cName
+comment5.target=void\ setAll(java.lang.String,\ java.lang.String)
+comment6.params=ID
+comment6.target=boolean\ checkExist(java.lang.String)
+comment7.params=data
+comment7.target=void\ add(Queue)
+comment8.params=id\ name
+comment8.target=Category\ search(java.lang.String,\ java.lang.String)
+comment9.params=
+comment9.target=java.lang.String\ toString()
+numComments=10

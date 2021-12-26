@@ -85,10 +85,10 @@ public class Category {
         }
     }
 
-      //search the category info by ID
-    static Category search(String id, String name) { //to search and return category name
-        
-        Category dat = null;
+    //extract all data from textfile
+    static LinkedList getAllCategory() {
+        LinkedList catList = new LinkedList();
+
         try {
             BufferedReader in = new BufferedReader(new FileReader("category.txt"));
             String data = in.readLine();
@@ -99,17 +99,34 @@ public class Category {
                 String catID =  inputs.nextToken();
                 String catName = inputs.nextToken();
 
-                if(catID.equalsIgnoreCase(id) || catName.equalsIgnoreCase(name)) {
-                    dat = new Category(catID,catName);
-                    break;
-                }
+                Category obj = new Category(catID,catName);
+                catList.insertAtBack(obj);
                 data = in.readLine();
             }
             in.close();
         }catch (IOException ioe) {
             System.err.println("Something went wrong!\n" + ioe);
         }
-        return dat;
+
+        return catList;
+    }
+
+    //search the category info by ID
+    //to search and return category obj
+    static Category search(String id) {
+        
+        Category obj = null;
+        LinkedList list = getAllCategory();
+        Category data = (Category)list.getHead();
+
+        while(data != null) {
+            
+            if(data.getCID().equalsIgnoreCase(id)) {
+                return data;
+            }
+            data = (Category)list.getNext();
+        }
+        return obj;
     }
 
 

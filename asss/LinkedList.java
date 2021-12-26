@@ -14,7 +14,7 @@ public class LinkedList {
 
     public Object getHead() {
         if(isEmpty()) {
-            throw new EmptyListException();
+            return null;
         }else{
             curr = head;
             return curr.data;
@@ -23,7 +23,7 @@ public class LinkedList {
 
     public Object getTail() {
         if(isEmpty()) {
-            throw new EmptyListException();
+            return null;
         }else {
             curr = tail;
             return curr.data;
