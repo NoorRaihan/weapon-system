@@ -68,6 +68,24 @@ public class Weapon extends Category {
         return flag;
     }
 
+    //add weapon to text file
+    static void add(Queue data){
+
+        while(!data.isEmpty())
+        {
+            Weapon obj = (Weapon)data.dequeue();
+            try{
+                PrintWriter add = new PrintWriter(new BufferedWriter(new FileWriter("weapon.txt", true)));
+                add.println(obj.getWeaponID() + ";" + obj.getWeaponName() + ";" + obj.getCID() + ";" + obj.getWeaponPrice());
+
+                add.close();
+                add.flush();
+            }
+            catch(IOException ioe){
+                System.err.println(ioe);
+            }
+        }
+    }
 
     //toString
     public String toString() {

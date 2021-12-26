@@ -85,6 +85,34 @@ public class Category {
         }
     }
 
+      //search the category info by ID
+    static Category search(String id, String name) { //to search and return category name
+        
+        Category dat = null;
+        try {
+            BufferedReader in = new BufferedReader(new FileReader("category.txt"));
+            String data = in.readLine();
+
+            while(data != null) {
+                StringTokenizer inputs = new StringTokenizer(data, ";");
+
+                String catID =  inputs.nextToken();
+                String catName = inputs.nextToken();
+
+                if(catID.equalsIgnoreCase(id) || catName.equalsIgnoreCase(name)) {
+                    dat = new Category(catID,catName);
+                    break;
+                }
+                data = in.readLine();
+            }
+            in.close();
+        }catch (IOException ioe) {
+            System.err.println("Something went wrong!\n" + ioe);
+        }
+        return dat;
+    }
+
+
     //toString
     public String toString() {
         return "\nCategory ID: " + cID + "\nCategory Name: " + cName;
