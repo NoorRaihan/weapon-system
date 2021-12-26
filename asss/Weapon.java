@@ -87,6 +87,48 @@ public class Weapon extends Category {
         }
     }
 
+    //extract all data from textfile
+    static LinkedList getAllWeapon() {
+        LinkedList weaponList = new LinkedList();
+
+        try {
+            BufferedReader in = new BufferedReader(new FileReader("weapon.txt"));
+            String data = in.readLine();
+
+            while(data != null) {
+                StringTokenizer inputs = new StringTokenizer(data, ";");
+
+                String catID =  inputs.nextToken();
+                String catName = inputs.nextToken();
+
+                Category obj = new Category(catID,catName);
+                weaponList.insertAtBack(obj);
+                data = in.readLine();
+            }
+            in.close();
+        }catch (IOException ioe) {
+            System.err.println("Something went wrong!\n" + ioe);
+        }
+
+        return weaponList;
+    }
+
+    //search weapon by it's id and return the object
+    static Weapon search(String id) {
+        
+        LinkedList list = getAllWeapon();
+        Weapon data = (Weapon)list.getHead();
+
+        while(data != null) {
+
+            if(data.getWeaponID().equalsIgnoreCase(id)) {
+                return data;
+            }
+            data = (Weapon)list.getNext();
+        }
+        return null;
+    }
+
     //toString
     public String toString() {
         return "\nWeapon ID: " + weaponID +

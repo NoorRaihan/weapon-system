@@ -24,29 +24,47 @@ public class Main {
         return flag;
     }
 
+    //check specific String element in queue
+    static boolean inputValidate(LinkedList data, String key) {
+
+        String temp = (String)data.getHead();
+        while(temp != null) {
+            if(temp.equalsIgnoreCase(key)) {
+                return true;
+            }
+            temp = (String)data.getNext();
+        }
+
+        return false;
+    }
+
     //insert category
     static void addCategory(){
         System.out.print("\u000C");
         Scanner in = new Scanner(System.in);
 
         Queue data = new Queue();
+        LinkedList tempID = new LinkedList();
         char choice = 'y';
         while(choice == 'y' || choice == 'Y')
         {
             boolean check =  true;
             String cID = null;
             String cName = null;
-
+            
             while(check){
                 System.out.print("\nCategory ID : ");
                 cID = in.nextLine();
                 boolean exist = Category.checkExist(cID);
-                if(exist)
+                boolean inserted = inputValidate(tempID, cID);
+
+                if(exist || inserted)
                 {
                     System.out.println("Already exist !");
                 }
                 else
                 {
+                    tempID.insertAtBack(cID);
                     check = false;
                     break;
                 }
@@ -62,6 +80,7 @@ public class Main {
             choice = in.nextLine().charAt(0);
             
         }
+
         //add function go here lmbfao
         System.out.println("Are you confirm ?");
         choice = in.nextLine().charAt(0);
@@ -80,6 +99,7 @@ public class Main {
         Scanner in = new Scanner(System.in);
 
         Queue data = new Queue();
+        LinkedList tempID = new LinkedList();
         char choice = 'y';
         while(choice == 'y' || choice == 'Y')
         {
@@ -89,23 +109,20 @@ public class Main {
             String wName = null;
             double wPrice = 0;
             Category catobj = null;
-            String temp = null;
 
             while(check){
                 System.out.print("\nWeapon ID : ");
                 wID = in.nextLine();
                 boolean exist = Weapon.checkExist(wID);
-                if(exist)
+                boolean inserted = inputValidate(tempID, wID);
+
+                if(exist || inserted)
                 {
                     System.out.println("Already exist !");
                 }
-                else if(wID.equalsIgnoreCase(temp))
-                {
-                    System.out.println("Already inserted !");
-                }
                 else
                 {
-                    temp = wID;
+                    tempID.insertAtBack(wID);
                     check = false;
                     break;
                 }
@@ -114,7 +131,7 @@ public class Main {
             while(catobj == null){
                 System.out.print("Category ID : ");
                 cID = in.nextLine();
-                catobj = Category.search(cID, null);
+                catobj = Category.search(cID);
                 if(catobj == null)
                 {
                     System.out.println("Category is not exist !");
@@ -205,8 +222,8 @@ public class Main {
     static void customerMenu() {
         System.out.print("\u000C");
         Scanner in = new Scanner(System.in);
-        System.out.println("\n[1] Buy dat thinggg");
-        System.out.println("[2] Let's check what we have here");
+        System.out.println("\n[1] Purchase Weapon");
+        System.out.println("[2] Product List");
         System.out.println("[99] Back to main menu");
 
         boolean notValid = true;
