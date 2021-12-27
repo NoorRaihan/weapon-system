@@ -35,32 +35,22 @@ public class Weapon extends Category {
 
 
      //check the weapon ID already exist or not in the textfile
-     static boolean checkExist(String ID) { //check if product exist or not
+     static boolean checkExist(String ID) {
         boolean flag = false;
 
         File chkfile = new File("weapon.txt");
         boolean exists = chkfile.exists();
 
         if(exists) {
-            try {
-                BufferedReader inpt = new BufferedReader(new FileReader("weapon.txt"));
-                String data = inpt.readLine();
-                
-                while(data != null) {
-                    StringTokenizer inputs = new StringTokenizer(data,";");
-                    String tempID = inputs.nextToken();
-    
-                    if(tempID.equalsIgnoreCase(ID)) {
-                        flag = true;
-                        break;
-                    } else {
-                        flag = false;
-                    }
-                    data = inpt.readLine();
+
+            LinkedList weaList = getAllWeapon();
+            Weapon data = (Weapon)weaList.getHead();
+
+            while(data != null) {
+                if(data.getWeaponID().equalsIgnoreCase(ID)) {
+                    return true;
                 }
-                inpt.close();
-            } catch (IOException ioe) {
-                System.err.println("Something went wrong!");
+                data = (Weapon)weaList.getNext();
             }
         } else {
             flag = false;
@@ -71,19 +61,18 @@ public class Weapon extends Category {
     //add weapon to text file
     static void add(Queue data){
 
-        while(!data.isEmpty())
-        {
-            Weapon obj = (Weapon)data.dequeue();
-            try{
-                PrintWriter add = new PrintWriter(new BufferedWriter(new FileWriter("weapon.txt", true)));
-                add.println(obj.getWeaponID() + ";" + obj.getWeaponName() + ";" + obj.getCID() + ";" + obj.getWeaponPrice());
+        try{
+            PrintWriter add = new PrintWriter(new BufferedWriter(new FileWriter("weapon.txt", true)));
 
-                add.close();
-                add.flush();
+            while(!data.isEmpty()) {
+                Weapon obj = (Weapon)data.dequeue();
+                add.println(obj.getWeaponID() + ";" + obj.getWeaponName() + ";" + obj.getCID() + ";" + obj.getWeaponPrice());
             }
-            catch(IOException ioe){
-                System.err.println(ioe);
-            }
+            add.close();
+            add.flush();
+        }
+        catch(IOException ioe){
+            System.err.println(ioe);
         }
     }
 
@@ -98,10 +87,14 @@ public class Weapon extends Category {
             while(data != null) {
                 StringTokenizer inputs = new StringTokenizer(data, ";");
 
-                String catID =  inputs.nextToken();
-                String catName = inputs.nextToken();
+                String weaID =  inputs.nextToken();
+                String weaName = inputs.nextToken();
+                String catID = inputs.nextToken();
+                Double weaPrice = Double.parseDouble(inputs.nextToken());
 
-                Category obj = new Category(catID,catName);
+                //get whole object for category
+                Category catObj = Category.search(catID);
+                Weapon obj = new Weapon(catObj,weaID,weaName,weaPrice); 
                 weaponList.insertAtBack(obj);
                 data = in.readLine();
             }
