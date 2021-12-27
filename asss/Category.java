@@ -40,25 +40,14 @@ public class Category {
 
         if(exists) {
 
-            try {
-                BufferedReader in = new BufferedReader(new FileReader("category.txt"));
-                String data = in.readLine();
-    
-                while(data != null) {
-                    StringTokenizer inputs = new StringTokenizer(data, ";");
-                    String  tempID = inputs.nextToken();
-    
-                    if(tempID.equalsIgnoreCase(ID)) {
-                        flag = true;
-                        break;
-                    } else {
-                        flag = false;
-                    }
-                    data = in.readLine();
+            LinkedList catList = getAllCategory();
+            Category data = (Category)catList.getHead();
+
+            while(data != null) {
+                if(data.getCID().equalsIgnoreCase(ID)) {
+                    return true;
                 }
-                in.close();
-            } catch (IOException ioe) {
-                System.err.println("Something went wrong!" +ioe);
+                data = (Category)catList.getNext();
             }
         } else {
             flag = false;
@@ -69,19 +58,18 @@ public class Category {
     //add category to text file
     static void add(Queue data){
 
-        while(!data.isEmpty())
-        {
-            Category obj = (Category)data.dequeue();
-            try{
-                PrintWriter add = new PrintWriter(new BufferedWriter(new FileWriter("category.txt", true)));
+        try{
+            PrintWriter add = new PrintWriter(new BufferedWriter(new FileWriter("category.txt", true)));
+            
+            while(!data.isEmpty()) {
+                Category obj = (Category)data.dequeue();
                 add.println(obj.getCID() + ";" + obj.getCName());
-
-                add.close();
-                add.flush();
             }
-            catch(IOException ioe){
-                System.err.println(ioe);
-            }
+            add.close();
+            add.flush();
+        }
+        catch(IOException ioe){
+            System.err.println(ioe);
         }
     }
 
