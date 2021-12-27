@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 import java.util.Scanner;
 
 public class Main {
-    
+
     //return true or false depends on the choice yes or no
     static boolean choicePicker(String choice) {
         boolean flag = false;
@@ -90,14 +90,7 @@ public class Main {
                 choice = in.nextLine().charAt(0);
 
             }
-
             count++;
-
-            // System.out.println("Want to add more Category ? \n[Y] - yessir \n[N] - nossir");
-            // choice = in.nextLine().charAt(0);
-
-            
-        
         }
 
         //add function go here lmbfao
@@ -130,15 +123,16 @@ public class Main {
 
         Queue data = new Queue();
         LinkedList tempID = new LinkedList();
+        boolean check =  true;
+        String cID = null;
+        String wID = null;
+        String wName = null;
+        double wPrice = 0;
+        Category catobj = null;
         char choice = 'y';
+
         while(choice == 'y' || choice == 'Y')
         {
-            boolean check =  true;
-            String cID = null;
-            String wID = null;
-            String wName = null;
-            double wPrice = 0;
-            Category catobj = null;
 
             while(check){
                 System.out.print("\nWeapon ID : ");
@@ -216,6 +210,138 @@ public class Main {
         }  
     }
 
+    //display all the weapon
+    static void displayAllWeapon() {
+        System.out.print("\u000C");
+        LinkedList weaList = Weapon.getAllWeapon();
+        Weapon data = (Weapon)weaList.getHead();
+
+        while(data != null) {
+            System.out.println(data.toString());
+            data = (Weapon)weaList.getNext();
+        }
+    }
+
+    //display all the weapon by the category
+    static void displayAllWeaponByCategory() {
+        System.out.print("\u000C");
+        LinkedList weaList = Weapon.getAllWeapon();
+        LinkedList catList = Category.getAllCategory();
+        Category catData = (Category)catList.getHead();
+        Weapon weaData = (Weapon)weaList.getHead();
+        
+
+        while(catData != null) {
+            System.out.println("\n\n===========" + catData.getCName() + "===========");
+            weaData = (Weapon)weaList.getHead();
+            while(weaData != null) {
+                if(weaData.getCID().equalsIgnoreCase(catData.getCID())) {
+                    System.out.println(weaData.toString());
+                }
+                weaData = (Weapon)weaList.getNext();
+            }
+            catData = (Category)catList.getNext();
+        }
+    }
+
+    //add customer purchase to textfile
+    static void purchase() {
+        System.out.print("\u000C");
+        Scanner in = new Scanner(System.in);
+        Queue data = new Queue();
+
+        String customerIC = null;
+        String customerName = null;
+        String weaID = null;
+        int quantity = 0;
+        double total = 0.00;
+        Category catObj = null;
+        Weapon weaObj = null;
+        char choice = 'y';
+
+        System.out.print("Customer's IC: ");
+        customerIC = in.nextLine();
+
+        System.out.print("Customer's Name: ");
+        customerName = in.nextLine();
+        while(choice == 'y' || choice == 'Y') {
+
+            while(true) {
+                System.out.print("Weapon ID: ");
+                weaID = in.nextLine();
+                weaObj = Weapon.search(weaID);
+
+                if(weaObj != null) {
+                    System.out.println("\n======== WEAPON DETAIL ======== ");
+                    System.out.println(weaObj.toString());
+                    break;
+                } else {
+                    System.out.println("Weapon ID is invalid or not exist!");
+                }
+            }
+
+            System.out.print("Quantity: ");
+            quantity = Integer.parseInt(in.nextLine());
+
+            catObj = Category.search(weaObj.getCID());
+            Sale obj = new Sale(catObj,weaObj,customerIC,customerName,quantity);
+            data.enqueue(obj);
+
+            total += obj.totalPrice();
+            System.out.println("=========== Total Price: RM" + total + " ===========");
+            System.out.println("\nShopping more ? \n[Y] - yessir \n[N] - nossir");
+            choice = in.nextLine().charAt(0);
+            if(choice == 'y' || choice == 'Y') {
+                System.out.print("\u000C");
+                System.out.println("Customer's IC: " + customerIC);
+                System.out.println("Customer's Name: " + customerName + "\n");
+            }
+        }
+        System.out.println("Are you confirm ? (⌐■_■)\n[Y] - yessir \n[N] - nossir");
+        choice = in.nextLine().charAt(0);
+        if(choice == 'y' || choice == 'Y' )
+        {
+            Sale.add(data);
+            System.out.println("Purchase checkout successfully!");
+            pressAnyKey();
+            adminMenu();
+        }
+        else
+            customerMenu();
+    }
+
+    //search the the sales record
+    static void searchSalesRecord() {
+        System.out.print("\u000C");
+        Scanner in = new Scanner(System.in);
+        String ic;
+        double total = 0.00;
+
+        System.out.println("Customer IC: ");
+        ic = in.nextLine();
+
+        LinkedList record = Sale.searchRecord(ic);
+        Sale data = (Sale)record.getHead();
+        System.out.println("============= RESULT =============");
+
+        if(data == null) {
+            System.out.println("IC does not exist in the record!");
+            pressAnyKey();
+            adminMenu();
+        } else {
+
+            while(data != null) {
+                System.out.println(data.toString());
+                total += data.totalPrice();
+                data = (Sale)record.getNext();
+            }
+            System.out.println("\n=========== Total Purchase: RM" + total + " ===========");
+            pressAnyKey();
+            adminMenu();
+        }
+    }
+
+
     //display the main menu
     static void mainMenu() {
         System.out.print("\u000C");
@@ -269,10 +395,15 @@ public class Main {
                 case 1:
                     notValid = false;
                     //purchae gun function go here
+                    purchase();
                     break;
                 case 2:
                     notValid = false;
                     //list product menu go here
+                    // displayAllWeapon();
+                    displayAllWeaponByCategory();
+                    pressAnyKey();
+                    customerMenu();
                     break;
                 case 99:
                     notValid = false;
@@ -319,6 +450,7 @@ public class Main {
                 case 4:
                     notValid = false;
                     //search function go here
+                    searchSalesRecord();
                     break;
                 case 5:
                     notValid = false;
