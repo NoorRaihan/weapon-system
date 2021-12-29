@@ -61,6 +61,26 @@ public class Sale extends Weapon {
         }
     }
 
+    //delete the sale record tetfile
+    static void delete(Queue data) {
+        File oriFile = new File("sales.txt");
+        oriFile.delete();
+        
+        try{
+            PrintWriter add = new PrintWriter(new BufferedWriter(new FileWriter("sales.txt", true)));
+            
+            while(!data.isEmpty()) {
+                Sale obj = (Sale)data.dequeue();
+                add.println(obj.getCustomerIC() + ";" + obj.getCustomerName() + ";" + obj.getWeaponID() + ";" + obj.getQuantity());
+            }
+            add.close();
+            add.flush();
+        }
+        catch(IOException ioe){
+            System.err.println(ioe);
+        }
+    }
+
     //get all sales record
     static LinkedList getAllSales() {
         LinkedList saleList = new LinkedList();

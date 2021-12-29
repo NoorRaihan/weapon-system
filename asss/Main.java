@@ -210,37 +210,107 @@ public class Main {
         }  
     }
 
+    //display sale record
+    static void displaySaleRecord() {
+        System.out.print("\u000C");
+        LinkedList saleList = Sale.getAllSales();
+        saleList.head = saleList.mergeSortByName(saleList.head);
+        saleList.displayList(saleList.head);
+    }
+
     //display all the weapon
     static void displayAllWeapon() {
         System.out.print("\u000C");
         LinkedList weaList = Weapon.getAllWeapon();
-        Weapon data = (Weapon)weaList.getHead();
-
-        while(data != null) {
-            System.out.println(data.toString());
-            data = (Weapon)weaList.getNext();
-        }
+        weaList.head = weaList.mergeSortByName(weaList.head);
+        weaList.displayList(weaList.head);
     }
 
     //display all the weapon by the category
     static void displayAllWeaponByCategory() {
         System.out.print("\u000C");
-        LinkedList weaList = Weapon.getAllWeapon();
-        LinkedList catList = Category.getAllCategory();
-        Category catData = (Category)catList.getHead();
+        LinkedList arList = new LinkedList();
+        LinkedList lmgList = new LinkedList();
+        LinkedList srList = new LinkedList();
+        LinkedList expList = new LinkedList();
+        LinkedList meleeList = new LinkedList();
+        LinkedList weaList = Weapon.getAllWeapon(); 
         Weapon weaData = (Weapon)weaList.getHead();
-        
 
-        while(catData != null) {
-            System.out.println("\n\n===========" + catData.getCName() + "===========");
-            weaData = (Weapon)weaList.getHead();
-            while(weaData != null) {
-                if(weaData.getCID().equalsIgnoreCase(catData.getCID())) {
-                    System.out.println(weaData.toString());
-                }
-                weaData = (Weapon)weaList.getNext();
+        //sort and seperate by category id... hurmmm must be fixed id :(
+        while(weaData != null) {
+            
+            if(weaData.getCID().equalsIgnoreCase("SR300")) {
+                srList.insertAtBack(weaData);
             }
-            catData = (Category)catList.getNext();
+            else if(weaData.getCID().equalsIgnoreCase("AR100")) {
+                arList.insertAtBack(weaData);
+            }
+            else if(weaData.getCID().equalsIgnoreCase("LMG200")) {
+                lmgList.insertAtBack(weaData);
+            }
+            else if(weaData.getCID().equalsIgnoreCase("ML400")) {
+                meleeList.insertAtBack(weaData);
+            }
+            else if(weaData.getCID().equalsIgnoreCase("EXP500")) {
+                expList.insertAtBack(weaData);
+            }
+
+            weaData = (Weapon)weaList.getNext();
+            
+        }
+
+        //display the linkedlist
+        Node arHead = arList.head;
+        Node lmgHead = lmgList.head;
+        Node srHead = srList.head;
+        Node expHead = expList.head;
+        Node melHead = meleeList.head;
+
+        Node tempAr = arList.head;
+        Node tempLmg = lmgList.head;
+        Node tempSr = srList.head;
+        Node tempExp = expList.head;
+        Node tempMel = meleeList.head;
+
+        arHead = tempAr;
+        System.out.println("\n\n=========== ASSAULT RIFLE ===========");
+        while(arHead != null) {
+            Weapon obj = (Weapon)arHead.data;
+            System.out.println(obj.toString());
+            arHead = arHead.next;
+        }
+
+        expHead = tempExp;
+        System.out.println("\n\n=========== EXPLOSIVES ===========");
+        while(expHead != null) {
+            Weapon obj = (Weapon)expHead.data;
+            System.out.println(obj.toString());
+            expHead = expHead.next;
+        }
+
+        lmgHead = tempLmg;
+        System.out.println("\n\n=========== LIGHT MACHINE GUN ===========");
+        while(lmgHead != null) {
+            Weapon obj = (Weapon)lmgHead.data;
+            System.out.println(obj.toString());
+            lmgHead = lmgHead.next;
+        }
+
+        melHead = tempMel;
+        System.out.println("\n\n=========== MELEE ===========");
+        while(melHead != null) {
+            Weapon obj = (Weapon)melHead.data;
+            System.out.println(obj.toString());
+            melHead = melHead.next;
+        }
+
+        srHead = tempSr;
+        System.out.println("\n\n=========== SNIPER RIFLE ===========");
+        while(srHead != null) {
+            Weapon obj = (Weapon)srHead.data;
+            System.out.println(obj.toString());
+            srHead = srHead.next;
         }
     }
 
@@ -307,7 +377,7 @@ public class Main {
             adminMenu();
         }
         else
-            customerMenu();
+            adminMenu();
     }
 
     //search the the sales record
@@ -341,6 +411,151 @@ public class Main {
         }
     }
 
+    //delete sales record
+    static void deletePurchaseRecord() {
+        
+        Scanner in = new Scanner(System.in);
+        LinkedList saleList = Sale.getAllSales();
+        Queue saleQueue = new Queue();
+        char choice = 'y';
+
+        while(choice == 'y' || choice == 'Y') {
+            System.out.print("\u000C");
+            saleList.displayList(saleList.head);
+            System.out.print("\nInsert Customer IC:");
+            String ic = in.nextLine();
+            
+            saleList.deleteCust(ic);
+
+            System.out.println("\nDelete more record ? \n[Y] - yessir \n[N] - nossir");
+            choice = in.nextLine().charAt(0);
+        }
+
+        //insert the linkedlist into queue
+        Sale data = (Sale)saleList.getHead();
+        while(data != null) {
+            saleQueue.enqueue(data);
+            data = (Sale)saleList.getNext();
+        }
+
+        System.out.println("Are you confirm ? (⌐■_■)\n[Y] - yessir \n[N] - nossir");
+        choice = in.nextLine().charAt(0);
+        if(choice == 'y' || choice == 'Y' )
+        {
+            Sale.delete(saleQueue);
+            System.out.println("Record has been updated successfully!");
+            pressAnyKey();
+            adminMenu();
+        }
+        else
+            adminMenu();
+        
+    }
+
+    //reporting menu
+    static void reporting() {
+        
+        System.out.print("\u000C");
+        Scanner in = new Scanner(System.in);
+        System.out.println("[1] Total sale of each category");
+        System.out.println("[99] Back to Admin Menu");
+
+        boolean notValid = true;
+        int choice = -1;
+
+        while(notValid) {
+
+            System.out.print("Enter choice: ");
+            choice = Integer.parseInt(in.nextLine());
+            switch(choice) {
+                case 1:
+                    notValid = false;
+                    calcSaleByCategory();
+                    break;
+                case 2:
+                    choice = 2;
+                    notValid = false;
+                    break;
+                case 99:
+                    notValid = false;
+                    adminMenu();
+                default:
+                    System.out.println("Ehem! Invalid choice..");
+            }
+        }
+    }
+
+    static void calcSaleByCategory() {
+        System.out.print("\u000C");
+        LinkedList saleList = Sale.getAllSales();
+        LinkedList catList = Category.getAllCategory();
+        catList.head = catList.mergeSortByName(catList.head);
+        Node catHead = catList.head;
+        Node temp = catList.head;
+
+        catHead = temp;
+        while(catHead != null) {
+            double total = 0.00;
+            Category catObj = (Category)catHead.data;
+            System.out.println("\n=================== " + catObj.getCName() + "=================== ");
+            Sale saleData = (Sale)saleList.getHead();
+            while(saleData != null) {
+                if(saleData.getCID().equalsIgnoreCase(catObj.getCID())) {
+                    total += saleData.totalPrice();
+                }
+                saleData = (Sale)saleList.getNext();
+            }
+            System.out.println("Total Sales: RM" + total);
+            catHead = catHead.next;
+        }
+        pressAnyKey();
+        reporting();
+    }
+
+    // static double calcTotalSale(LinkedList data) {
+    //     double total = 0.00;
+
+    //     Sale obj = (Sale)data.getHead();
+
+    //     while(obj != null) {
+            
+    //         total += obj.totalPrice();
+    //         obj = (Sale)data.getNext();
+    //     }
+    //     return total;
+    // }
+
+    // //display reporting menu
+    // static int reportMenu() {
+    //     System.out.print("\u000C");
+    //     Scanner in = new Scanner(System.in);
+    //     System.out.println("[1] Total sale of each category");
+
+    //     boolean notValid = true;
+    //     int choice = -1;
+
+    //     while(notValid) {
+
+    //         System.out.print("Enter choice: ");
+    //         choice = Integer.parseInt(in.nextLine());
+    //         switch(choice) {
+    //             case 1:
+    //                 choice = 1;
+    //                 notValid = false;
+    //                 break;
+    //             case 2:
+    //                 choice = 2;
+    //                 notValid = false;
+    //                 break;
+    //             case 99:
+    //                 notValid = false;
+    //                 adminMenu();
+    //             default:
+    //                 System.out.println("Ehem! Invalid choice..");
+    //         }
+    //     }
+    //     return choice;
+    // }
 
     //display the main menu
     static void mainMenu() {
@@ -421,8 +636,10 @@ public class Main {
         System.out.println("\n[1] Register new Category");
         System.out.println("[2] Register new Weapon");
         System.out.println("[3] List of all Weapon");
-        System.out.println("[4] Search customer record");
-        System.out.println("[5] Reporting");
+        System.out.println("[4] All Customer's record");
+        System.out.println("[5] Search customer record");
+        System.out.println("[6] Delete customer record");
+        System.out.println("[7] Reporting");
         System.out.println("[99] Back to main menu");
 
         boolean notValid = true;
@@ -450,11 +667,25 @@ public class Main {
                 case 4:
                     notValid = false;
                     //search function go here
-                    searchSalesRecord();
+                    System.out.print("\u000C");
+                    displaySaleRecord();
+                    pressAnyKey();
+                    adminMenu();
                     break;
                 case 5:
                     notValid = false;
+                    //search function go here
+                    searchSalesRecord();
+                    break;
+                case 6:
+                    notValid = false;
+                    //search function go here
+                    deletePurchaseRecord();
+                    break;
+                case 7:
+                    notValid = false;
                     //reporting menu go here
+                    reporting();
                     break;
                 case 99:
                     notValid = false;
