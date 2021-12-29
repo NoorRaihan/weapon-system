@@ -109,6 +109,45 @@ public class LinkedList {
         return count;
     }
 
+    public void deleteCust(String ic) {
+
+        Node prev = null;
+        Node temp = head;
+
+        String data = ((Sale)temp.data).getCustomerIC();
+        boolean exist = false;
+        
+
+        //check all the node to find the matching key
+        while(temp != null) {
+
+            if(prev == null && data.equalsIgnoreCase(ic)) {
+                exist = true;
+                head = temp.next;
+                temp = head;
+                data = ((Sale)temp.data).getCustomerIC();
+                continue;
+            }
+            else if(data.equalsIgnoreCase(ic)) {
+                exist = true;
+                prev.next = temp.next;
+            }
+
+            prev = temp;
+            temp = temp.next;
+            if(temp != null)
+                data = ((Sale)temp.data).getCustomerIC();
+        }
+
+        //ic not exist in the list
+        if(!exist) {
+            System.out.println("No Record Found for this IC");
+            return;
+        }
+
+        System.out.println("Record for " + ic + " is deleted!");
+    }
+
     //merge sort algorithm
     public Node mergeByPrice(Node h1, Node h2) {
 
@@ -163,7 +202,7 @@ public class LinkedList {
     }
 
     //merge sort algorithm
-    public Node mergeByID(Node h1, Node h2) {
+    public Node mergeByName(Node h1, Node h2) {
 
         Node temp = new Node();
         Node finallst = temp;
@@ -178,6 +217,11 @@ public class LinkedList {
                 Category temp2 = (Category)h2.data;
                 key1 = temp1.getCID();
                 key2 = temp2.getCID();
+            } else if(data.getClass().toString().equalsIgnoreCase("class Sale")) {
+                Sale temp1 = (Sale)h1.data;
+                Sale temp2 = (Sale)h2.data;
+                key1 = temp1.getCustomerName();
+                key2 = temp2.getCustomerName();
             } else {
                 Weapon temp1 = (Weapon)h1.data;
                 Weapon temp2 = (Weapon)h2.data;
@@ -211,7 +255,7 @@ public class LinkedList {
     }
 
     // //try to mergesort
-    public Node mergeSortByID(Node head) {
+    public Node mergeSortByName(Node head) {
 
         if(head.next == null) {
             return head;
@@ -221,9 +265,9 @@ public class LinkedList {
         Node head2 = middle.next;
         middle.next = null;
 
-        Node lefthead = mergeSortByID(head);
-        Node righthead = mergeSortByID(head2);
-        Node mergedHead = mergeByID(lefthead, righthead); //kiv
+        Node lefthead = mergeSortByName(head);
+        Node righthead = mergeSortByName(head2);
+        Node mergedHead = mergeByName(lefthead, righthead); //kiv
 
         return mergedHead;
     } 

@@ -210,11 +210,19 @@ public class Main {
         }  
     }
 
+    //display sale record
+    static void displaySaleRecord() {
+        System.out.print("\u000C");
+        LinkedList saleList = Sale.getAllSales();
+        saleList.head = saleList.mergeSortByName(saleList.head);
+        saleList.displayList(saleList.head);
+    }
+
     //display all the weapon
     static void displayAllWeapon() {
         System.out.print("\u000C");
         LinkedList weaList = Weapon.getAllWeapon();
-        weaList.head = weaList.mergeSortByID(weaList.head);
+        weaList.head = weaList.mergeSortByName(weaList.head);
         weaList.displayList(weaList.head);
     }
 
@@ -369,7 +377,7 @@ public class Main {
             adminMenu();
         }
         else
-            customerMenu();
+            adminMenu();
     }
 
     //search the the sales record
@@ -401,6 +409,47 @@ public class Main {
             pressAnyKey();
             adminMenu();
         }
+    }
+
+    //delete sales record
+    static void deletePurchaseRecord() {
+        
+        Scanner in = new Scanner(System.in);
+        LinkedList saleList = Sale.getAllSales();
+        Queue saleQueue = new Queue();
+        char choice = 'y';
+
+        while(choice == 'y' || choice == 'Y') {
+            System.out.print("\u000C");
+            saleList.displayList(saleList.head);
+            System.out.print("\nInsert Customer IC:");
+            String ic = in.nextLine();
+            
+            saleList.deleteCust(ic);
+
+            System.out.println("\nDelete more record ? \n[Y] - yessir \n[N] - nossir");
+            choice = in.nextLine().charAt(0);
+        }
+
+        //insert the linkedlist into queue
+        Sale data = (Sale)saleList.getHead();
+        while(data != null) {
+            saleQueue.enqueue(data);
+            data = (Sale)saleList.getNext();
+        }
+
+        System.out.println("Are you confirm ? (⌐■_■)\n[Y] - yessir \n[N] - nossir");
+        choice = in.nextLine().charAt(0);
+        if(choice == 'y' || choice == 'Y' )
+        {
+            Sale.delete(saleQueue);
+            System.out.println("Record has been updated successfully!");
+            pressAnyKey();
+            adminMenu();
+        }
+        else
+            adminMenu();
+        
     }
 
     //reporting menu
@@ -440,7 +489,7 @@ public class Main {
         System.out.print("\u000C");
         LinkedList saleList = Sale.getAllSales();
         LinkedList catList = Category.getAllCategory();
-        catList.head = catList.mergeSortByID(catList.head);
+        catList.head = catList.mergeSortByName(catList.head);
         Node catHead = catList.head;
         Node temp = catList.head;
 
@@ -587,8 +636,10 @@ public class Main {
         System.out.println("\n[1] Register new Category");
         System.out.println("[2] Register new Weapon");
         System.out.println("[3] List of all Weapon");
-        System.out.println("[4] Search customer record");
-        System.out.println("[5] Reporting");
+        System.out.println("[4] All Customer's record");
+        System.out.println("[5] Search customer record");
+        System.out.println("[6] Delete customer record");
+        System.out.println("[7] Reporting");
         System.out.println("[99] Back to main menu");
 
         boolean notValid = true;
@@ -616,9 +667,22 @@ public class Main {
                 case 4:
                     notValid = false;
                     //search function go here
-                    searchSalesRecord();
+                    System.out.print("\u000C");
+                    displaySaleRecord();
+                    pressAnyKey();
+                    adminMenu();
                     break;
                 case 5:
+                    notValid = false;
+                    //search function go here
+                    searchSalesRecord();
+                    break;
+                case 6:
+                    notValid = false;
+                    //search function go here
+                    deletePurchaseRecord();
+                    break;
+                case 7:
                     notValid = false;
                     //reporting menu go here
                     reporting();
