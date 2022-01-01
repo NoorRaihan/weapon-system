@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.util.StringTokenizer;
+
+import javax.print.attribute.standard.PresentationDirection;
+
 //normal stuff
 import java.util.Scanner;
 
@@ -458,6 +461,9 @@ public class Main {
         System.out.print("\u000C");
         Scanner in = new Scanner(System.in);
         System.out.println("[1] Total sale of each category");
+        System.out.println("[2] Find highest weapon's category sold");
+        System.out.println("[3] Count total weapon sold by each category");
+        System.out.println("[4] Calculate the average sales by each category");
         System.out.println("[99] Back to Admin Menu");
 
         boolean notValid = true;
@@ -473,8 +479,16 @@ public class Main {
                     calcSaleByCategory();
                     break;
                 case 2:
-                    choice = 2;
                     notValid = false;
+                    FindHighestByCat();
+                    break;
+                case 3:
+                    notValid = false;
+                    CountWeaponSoldByCat();
+                    break;
+                case 4:
+                    notValid = false;
+                    CalcAverageSalesByCat();
                     break;
                 case 99:
                     notValid = false;
@@ -696,6 +710,107 @@ public class Main {
             }
         }
     }
+
+    static void FindHighestByCat()
+    {
+        LinkedList saleList = Sale.getAllSales();
+        LinkedList catList = Category.getAllCategory();
+        
+        Category catData = (Category)catList.getHead();
+        int highest = 0;
+        int count = 0;
+        Category catHighest = null;
+        while(catData != null)
+        {
+            Sale saleData = (Sale)saleList.getHead();
+            count = 0;
+            while(saleData != null)
+            {
+                if(saleData.getCID().equalsIgnoreCase(catData.getCID()))
+                {
+                    count++;
+                }
+                saleData = (Sale)saleList.getNext();
+            }
+            if(count > highest)
+            {
+                highest = count;
+                catHighest = catData;
+            }
+            catData = (Category)catList.getNext();
+        }
+        System.out.println("The highest weapon's category sold is " + catHighest.getCName());
+        pressAnyKey();
+        reporting();
+    }
+
+    static void CountWeaponSoldByCat()
+    {
+        LinkedList saleList = Sale.getAllSales();
+        LinkedList catList = Category.getAllCategory();
+        catList.head = catList.mergeSortByName(catList.head);
+        Node catHead = catList.head;
+        Node temp = catList.head;
+        
+        catHead = temp;
+        int count = 0;
+        while(catHead != null)
+        {
+            Category catObj = (Category)catHead.data;
+            System.out.println("\n=================== " + catObj.getCName() + "=================== ");
+            Sale saleData = (Sale)saleList.getHead();
+            count = 0;
+            while(saleData != null) {
+                if(saleData.getCID().equalsIgnoreCase(catObj.getCID())) 
+                {
+                    count += saleData.getQuantity();
+                }
+                saleData = (Sale)saleList.getNext();
+            }
+            System.out.println("Total weapon sold : " + count);
+            catHead = catHead.next;
+        }
+        pressAnyKey();
+        reporting();
+    }
+
+    static void CalcAverageSalesByCat()
+    {
+        System.out.print("\u000C");
+        LinkedList saleList = Sale.getAllSales();
+        LinkedList catList = Category.getAllCategory();
+        catList.head = catList.mergeSortByName(catList.head);
+        Node catHead = catList.head;
+        Node temp = catList.head;
+
+        double average = 0.00;
+        int count = 0;
+        catHead = temp;
+        while(catHead != null) {
+            double total = 0.00;
+            Category catObj = (Category)catHead.data;
+            System.out.println("\n=================== " + catObj.getCName() + "=================== ");
+            Sale saleData = (Sale)saleList.getHead();
+            count = 0;
+            average = 0.00;
+            while(saleData != null) {
+                if(saleData.getCID().equalsIgnoreCase(catObj.getCID())) {
+                    total += saleData.totalPrice();
+                    count += saleData.getQuantity();
+                }
+                saleData = (Sale)saleList.getNext();
+            }
+            if(count == 0)
+                average = 0.00;
+            else
+                average = total/count;
+            System.out.println("The average sales : RM" + average);
+            catHead = catHead.next;
+        }
+        pressAnyKey();
+        reporting();
+    }
+
     public static void main(String []  args) {
         //code here
         mainMenu();
