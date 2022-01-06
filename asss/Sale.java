@@ -7,13 +7,14 @@ import java.io.IOException;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.util.StringTokenizer;
+import java.text.*;
 
 public class Sale extends Weapon {
 
     private String customerIC;
     private String customerName;
     private int quantity;
-
+    DecimalFormat df = new DecimalFormat("0.00");
 
     //constructor
     public Sale() { this(null,null,null,null,0); }
