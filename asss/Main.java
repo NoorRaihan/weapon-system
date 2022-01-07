@@ -710,8 +710,8 @@ public class Main {
         System.out.println("\n\t\t\t\t"  + TEXT_YELLOW + "============== ALL WEAPON RECORD ==============" + TEXT_RESET);
         displayAllWeapon();
         calcSaleByCategory();
-        FindHighestByCat();
         CountWeaponSoldByCat();
+        FindHighestByCat();
         CalcAverageSalesByCat();
     }
 
@@ -928,7 +928,7 @@ public class Main {
         LinkedList catList = Category.getAllCategory();
         
         Category catData = (Category)catList.getHead();
-        int highest = 0;
+        int highest = -1;
         int count = 0;
         Category catHighest = null;
         while(catData != null)
@@ -939,7 +939,7 @@ public class Main {
             {
                 if(saleData.getCID().equalsIgnoreCase(catData.getCID()))
                 {
-                    count++;
+                    count += saleData.getQuantity();
                 }
                 saleData = (Sale)saleList.getNext();
             }
