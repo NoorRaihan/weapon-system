@@ -59,36 +59,46 @@ public class Main {
     //insert category
     static void addCategory(){
         System.out.print("\u000C");
+        System.out.print("\033[H\033[2J");
         Scanner in = new Scanner(System.in);
+
+        System.out.println("\t\t" + TEXT_YELLOW + " █████  ██████  ██████       ██████  █████  ████████ ███████  ██████   ██████  ██████  ██    ██ ");
+        System.out.println("\t\t" + TEXT_YELLOW + "██   ██ ██   ██ ██   ██     ██      ██   ██    ██    ██      ██       ██    ██ ██   ██  ██  ██  ");
+        System.out.println("\t\t" + TEXT_YELLOW + "███████ ██   ██ ██   ██     ██      ███████    ██    █████   ██   ███ ██    ██ ██████    ████   ");
+        System.out.println("\t\t" + TEXT_YELLOW + "██   ██ ██   ██ ██   ██     ██      ██   ██    ██    ██      ██    ██ ██    ██ ██   ██    ██    ");
+        System.out.println("\t\t" + TEXT_YELLOW + "██   ██ ██████  ██████       ██████ ██   ██    ██    ███████  ██████   ██████  ██   ██    ██    " + TEXT_RESET);
 
         int count = Category.getAllCategory().size();
         Queue data = new Queue();
         LinkedList tempID = new LinkedList();
-        char choice = 'y';
+        int ch = 0;
         boolean check =  true;
         String cID = null;
         String cName = null;
-
-        while(choice == 'y' || choice == 'Y')
+        System.out.println();
+        while(ch == 0)
         {
             
             
             if(count > 4)
             {
-                System.out.println("Ehem..Can't exceed 5 categories <(｀^´)>");
+                // System.out.println("Ehem..Can't exceed 5 categories <( `^`)>");
+                JOptionPane.showMessageDialog(null, "Ehem..Can't exceed 5 categories <( `^`)>", "ERROR", JOptionPane.ERROR_MESSAGE);
                 break;
             }
             else
             {
                 while(check){
-                    System.out.print("\nCategory ID : ");
+                    System.out.print("\n\t\t\tCategory ID : ");
                     cID = in.nextLine();
                     boolean exist = Category.checkExist(cID);
                     boolean inserted = inputValidate(tempID, cID);
     
                     if(exist || inserted)
                     {
-                        System.out.println("Already exist !");
+                        // System.out.println("Already exist !");
+                        JOptionPane.showMessageDialog(null, "Category ID already exist !", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        
                     }
                     else
                     {
@@ -104,8 +114,8 @@ public class Main {
                 Category obj = new Category(cID, cName);
                 data.enqueue(obj);
 
-                System.out.println("Want to add more Category ? \n[Y] - yessir \n[N] - nossir");
-                choice = in.nextLine().charAt(0);
+                ch = JOptionPane.showConfirmDialog(null, "Add more category? ", "Confirmation", JOptionPane.YES_NO_OPTION);
+                // choice = in.nextLine().charAt(0);
 
             }
             count++;
@@ -114,12 +124,13 @@ public class Main {
         //add function go here lmbfao
         if(cID != null)
         {
-            System.out.println("Are you confirm ? (⌐■_■)\n[Y] - yessir \n[N] - nossir");
-            choice = in.nextLine().charAt(0);
-            if(choice == 'y' || choice == 'Y' )
+            ch = JOptionPane.showConfirmDialog(null, "Are you confirm? (⌐■_■)", "Confirmation", JOptionPane.OK_CANCEL_OPTION);
+            // choice = in.nextLine().charAt(0);
+            if(ch == 0 )
             {
                 Category.add(data);
-                System.out.println("Succcessfully saved !");
+                // System.out.println("Succcessfully saved !");
+                JOptionPane.showMessageDialog(null, "Category successfully saved!", "Info", JOptionPane.INFORMATION_MESSAGE);
                 pressAnyKey();
                 adminMenu();
             }
@@ -137,7 +148,17 @@ public class Main {
     //insert weapon 
     static void addWeapon(){
         System.out.print("\u000C");
+        System.out.print("\033[H\033[2J");
         Scanner in = new Scanner(System.in);
+
+        System.out.println("\t\t" + TEXT_YELLOW + " █████  ██████  ██████      ██     ██ ███████  █████  ██████   ██████  ███    ██");
+        System.out.println("\t\t" + TEXT_YELLOW + "██   ██ ██   ██ ██   ██     ██     ██ ██      ██   ██ ██   ██ ██    ██ ████   ██");
+        System.out.println("\t\t" + TEXT_YELLOW + "███████ ██   ██ ██   ██     ██  █  ██ █████   ███████ ██████  ██    ██ ██ ██  ██");
+        System.out.println("\t\t" + TEXT_YELLOW + "██   ██ ██   ██ ██   ██     ██ ███ ██ ██      ██   ██ ██      ██    ██ ██  ██ ██");
+        System.out.println("\t\t" + TEXT_YELLOW + "██   ██ ██████  ██████       ███ ███  ███████ ██   ██ ██       ██████  ██   ████" + TEXT_RESET);
+
+        System.out.println("\n\n\t\t\t\t"  + "=========== CATEGORY LIST ===========");
+        displayCategory();
 
         Queue data = new Queue();
         LinkedList tempID = new LinkedList();
@@ -147,20 +168,22 @@ public class Main {
         String wName = null;
         double wPrice = 0;
         Category catobj = null;
-        char choice = 'y';
+        int ch = 0;
 
-        while(choice == 'y' || choice == 'Y')
+        while(ch == 0)
         {
-
+            check = true;
             while(check){
-                System.out.print("\nWeapon ID : ");
+                System.out.print("\n\t\t\t\t"  + "Weapon ID : ");
                 wID = in.nextLine();
                 boolean exist = Weapon.checkExist(wID);
                 boolean inserted = inputValidate(tempID, wID);
 
                 if(exist || inserted)
                 {
-                    System.out.println("Already exist !");
+                    // System.out.println("Already exist !");
+                    JOptionPane.showMessageDialog(null, "Weapon ID already exist !", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    
                 }
                 else
                 {
@@ -171,35 +194,38 @@ public class Main {
             }
 
             while(catobj == null){
-                System.out.print("Category ID : ");
+                System.out.print("\t\t\t\t"  +"Category ID : ");
                 cID = in.nextLine();
                 catobj = Category.search(cID);
                 if(catobj == null)
                 {
-                    System.out.println("Category is not exist !");
+                    // System.out.println("Category is not exist !");
+                    JOptionPane.showMessageDialog(null, "Category is not exist !", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    
                 }
                 
             }
 
-            System.out.print("Weapon Name : ");
+            System.out.print("\t\t\t\t"  + "Weapon Name : ");
             wName = in.nextLine();
 
-            System.out.print("Weapon Price : RM");
+            System.out.print("\t\t\t\t"  + "Weapon Price : RM");
             wPrice = Double.parseDouble(in.nextLine());
 
             Weapon obj = new Weapon(catobj, wID, wName, wPrice);
             data.enqueue(obj);
 
-            System.out.println("Want to add more Weapon ? \n[Y] - yessir \n[N] - nossir");
-            choice = in.nextLine().charAt(0);
+            ch = JOptionPane.showConfirmDialog(null, "Add more weapon? ", "Confirmation", JOptionPane.YES_NO_OPTION);
+            // choice = in.nextLine().charAt(0);
         }
 
-        System.out.println("Are you confirm ? (⌐■_■)\n[Y] - yessir \n[N] - nossir");
-        choice = in.nextLine().charAt(0);
-        if(choice == 'y' || choice == 'Y' )
+        ch = JOptionPane.showConfirmDialog(null, "Are you confirm? (⌐■_■)", "Confirmation", JOptionPane.OK_CANCEL_OPTION);
+        // choice = in.nextLine().charAt(0);
+        if(ch == 0 )
         {
             Weapon.add(data);
-            System.out.println("Succcessfully saved !");
+            // System.out.println("Succcessfully saved !");
+            JOptionPane.showMessageDialog(null, "Weapon successfully saved!", "Info", JOptionPane.INFORMATION_MESSAGE);
             pressAnyKey();
             adminMenu();
         }
@@ -218,10 +244,11 @@ public class Main {
 
     //for press any key to continue.... hehe
     static void pressAnyKey() {
+        Scanner in = new Scanner(System.in);
         System.out.println("\nPress Enter key to continue... <(￣︶￣)>");
         try
         {
-            System.in.read();
+            in.nextLine();
         }  
         catch(Exception e){
             System.err.println("went wrong!");
@@ -242,6 +269,20 @@ public class Main {
         LinkedList weaList = Weapon.getAllWeapon();
         weaList.head = weaList.mergeSortByName(weaList.head);
         weaList.displayList(weaList.head);
+    }
+
+    static void displayAllWeaponByPrice() {
+        System.out.print("\u000C");
+        LinkedList weaList = Weapon.getAllWeapon();
+        weaList.head = weaList.mergeSortByPrice(weaList.head);
+        weaList.displayList(weaList.head);
+    }
+
+    static void displayCategory() {
+        System.out.print("\u000C");
+        LinkedList catList = Category.getAllCategory();
+        catList.head = catList.mergeSortByName(catList.head);
+        catList.displayList(catList.head);
     }
 
     //display all the weapon by the category
@@ -285,84 +326,139 @@ public class Main {
         Node expHead = expList.mergeSortByName(expList.head);
         Node melHead = meleeList.mergeSortByName(meleeList.head);
 
-        Node tempAr = arList.head;
-        Node tempLmg = lmgList.head;
-        Node tempSr = srList.head;
-        Node tempExp = expList.head;
-        Node tempMel = meleeList.head;
-
-        arHead = tempAr;
-        System.out.println("\n\n=========== ASSAULT RIFLE ===========");
-        System.out.format("+------------+----------------------+----------------------+-----------------+%n");
-        System.out.format("| ID         | CATEGORY             | NAME                 | PRICE (RM)      |%n");
-        System.out.format("+------------+----------------------+----------------------+-----------------+%n");
+        // arHead = tempAr;
+        System.out.println("\n\n\t\t\t\t"  + "=========== ASSAULT RIFLE ===========");
+        System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
+        System.out.format("\t\t| ID         | CATEGORY             | NAME                 | PRICE (RM)      |%n");
+        System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
         while(arHead != null) {
             Weapon obj = (Weapon)arHead.data;
             // System.out.println(obj.toString());
-            System.out.format("| %-10s | %-20s | %-20s | %-15s |\n", obj.getWeaponID(), obj.getCName(), obj.getWeaponName(), obj.getWeaponPrice());
+            System.out.format("\t\t| %-10s | %-20s | %-20s | %-15s |\n", obj.getWeaponID(), obj.getCName(), obj.getWeaponName(), obj.getWeaponPrice());
             arHead = arHead.next;
         }
-        System.out.format("+------------+----------------------+----------------------+-----------------+%n");
+        System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
 
-        expHead = tempExp;
-        System.out.println("\n\n=========== EXPLOSIVES ===========");
-        System.out.format("+------------+----------------------+----------------------+-----------------+%n");
-        System.out.format("| ID         | CATEGORY             | NAME                 | PRICE (RM)      |%n");
-        System.out.format("+------------+----------------------+----------------------+-----------------+%n");
+        // expHead = tempExp;
+        System.out.println("\n\n\t\t\t\t"  + "=========== EXPLOSIVES ===========");
+        System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
+        System.out.format("\t\t| ID         | CATEGORY             | NAME                 | PRICE (RM)      |%n");
+        System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
         while(expHead != null) {
             Weapon obj = (Weapon)expHead.data;
             // System.out.println(obj.toString());\
-            System.out.format("| %-10s | %-20s | %-20s | %-15s |\n", obj.getWeaponID(), obj.getCName() , obj.getWeaponName(), "RM"+obj.getWeaponPrice());
+            System.out.format("\t\t| %-10s | %-20s | %-20s | %-15s |\n", obj.getWeaponID(), obj.getCName() , obj.getWeaponName(), "RM"+obj.getWeaponPrice());
             expHead = expHead.next;
         }
-        System.out.format("+------------+----------------------+----------------------+-----------------+%n");
+        System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
 
-        lmgHead = tempLmg;
-        System.out.println("\n\n=========== LIGHT MACHINE GUN ===========");
-        System.out.format("+------------+----------------------+----------------------+-----------------+%n");
-        System.out.format("| ID         | CATEGORY             | NAME                 | PRICE (RM)      |%n");
-        System.out.format("+------------+----------------------+----------------------+-----------------+%n");
+        // lmgHead = tempLmg;
+        System.out.println("\n\n\t\t\t\t"  + "=========== LIGHT MACHINE GUN ===========");
+        System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
+        System.out.format("\t\t| ID         | CATEGORY             | NAME                 | PRICE (RM)      |%n");
+        System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
         while(lmgHead != null) {
             Weapon obj = (Weapon)lmgHead.data;
             // System.out.println(obj.toString());
-            System.out.format("| %-10s | %-20s | %-20s | %-15s |\n", obj.getWeaponID(), obj.getCName() , obj.getWeaponName(), "RM"+obj.getWeaponPrice());
+            System.out.format("\t\t| %-10s | %-20s | %-20s | %-15s |\n", obj.getWeaponID(), obj.getCName() , obj.getWeaponName(), "RM"+obj.getWeaponPrice());
             lmgHead = lmgHead.next;
         }
-        System.out.format("+------------+----------------------+----------------------+-----------------+%n");
+        System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
 
-        melHead = tempMel;
-        System.out.println("\n\n=========== MELEE ===========");
-        System.out.format("+------------+----------------------+----------------------+-----------------+%n");
-        System.out.format("| ID         | CATEGORY             | NAME                 | PRICE (RM)      |%n");
-        System.out.format("+------------+----------------------+----------------------+-----------------+%n");
+        // melHead = tempMel;
+        System.out.println("\n\n\t\t\t\t"  + "=========== MELEE ===========");
+        System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
+        System.out.format("\t\t| ID         | CATEGORY             | NAME                 | PRICE (RM)      |%n");
+        System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
         while(melHead != null) {
             Weapon obj = (Weapon)melHead.data;
             // System.out.println(obj.toString());
-            System.out.format("| %-10s | %-20s | %-20s | %-15s |\n", obj.getWeaponID(), obj.getCName() , obj.getWeaponName(), "RM"+obj.getWeaponPrice());
+            System.out.format("\t\t| %-10s | %-20s | %-20s | %-15s |\n", obj.getWeaponID(), obj.getCName() , obj.getWeaponName(), "RM"+obj.getWeaponPrice());
             melHead = melHead.next;
         }
-        System.out.format("+------------+----------------------+----------------------+-----------------+%n");
+        System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
 
-        srHead = tempSr;
-        System.out.println("\n\n=========== SNIPER RIFLE ===========");
-        System.out.format("+------------+----------------------+----------------------+-----------------+%n");
-        System.out.format("| ID         | CATEGORY             | NAME                 | PRICE (RM)      |%n");
-        System.out.format("+------------+----------------------+----------------------+-----------------+%n");
+        // srHead = tempSr;
+        System.out.println("\n\n\t\t\t\t"  + "=========== SNIPER RIFLE ===========");
+        System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
+        System.out.format("\t\t| ID         | CATEGORY             | NAME                 | PRICE (RM)      |%n");
+        System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
         while(srHead != null) {
             Weapon obj = (Weapon)srHead.data;
             // System.out.println(obj.toString());
-            System.out.format("| %-10s | %-20s | %-20s | %-15s |\n", obj.getWeaponID(), obj.getCName() , obj.getWeaponName(), "RM"+obj.getWeaponPrice());
+            System.out.format("\t\t| %-10s | %-20s | %-20s | %-15s |\n", obj.getWeaponID(), obj.getCName() , obj.getWeaponName(), "RM"+obj.getWeaponPrice());
             srHead = srHead.next;
         }
-        System.out.format("+------------+----------------------+----------------------+-----------------+%n");
+        System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
+    }
+
+    static void displayWeaTitle() {
+        System.out.println("\t\t" + TEXT_YELLOW + "██     ██ ███████  █████  ██████   ██████  ███    ██");
+        System.out.println("\t\t" + TEXT_YELLOW + "██     ██ ██      ██   ██ ██   ██ ██    ██ ████   ██");
+        System.out.println("\t\t" + TEXT_YELLOW + "██  █  ██ █████   ███████ ██████  ██    ██ ██ ██  ██");
+        System.out.println("\t\t" + TEXT_YELLOW + "██ ███ ██ ██      ██   ██ ██      ██    ██ ██  ██ ██");
+        System.out.println("\t\t" + TEXT_YELLOW + " ███ ███  ███████ ██   ██ ██       ██████  ██   ████" + TEXT_RESET);
+    }
+
+    static void displayWeapon() {
+        System.out.print("\u000C");
+        System.out.print("\033[H\033[2J");
+        Scanner in = new Scanner(System.in);
+        displayWeaTitle();
+
+        System.out.println("\n\t\t\t\t"  + TEXT_YELLOW + "[1] All Weapon By Category");
+        System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[2] All Weapon By Price");
+        System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[99] Back to menu");
+
+        boolean notValid = true;
+        int choice = -1;
+        System.out.println();
+        while(notValid) {
+
+            System.out.print("\n\t\t\t"  + TEXT_YELLOW + "Enter choice: " + TEXT_RESET);
+            choice = Integer.parseInt(in.nextLine());
+            switch(choice) {
+                case 1:
+                    notValid = false;
+                    System.out.print("\u000C");
+                    System.out.print("\033[H\033[2J");
+                    displayWeaTitle();
+                    displayAllWeaponByCategory();
+                    pressAnyKey();
+                    displayWeapon();
+                    break;
+                case 2:
+                    notValid = false;
+                    System.out.print("\u000C");
+                    System.out.print("\033[H\033[2J");
+                    displayWeaTitle();
+                    displayAllWeaponByPrice();
+                    pressAnyKey();
+                    displayWeapon();
+                    break;
+                case 99:
+                    notValid = false;
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Invalid input.. Ehem! (⌐■_■)", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     //add customer purchase to textfile
     static void purchase() {
         System.out.print("\u000C");
+        System.out.print("\033[H\033[2J");
         Scanner in = new Scanner(System.in);
-        Queue data = new Queue();
 
+        System.out.println("\t\t" + TEXT_YELLOW + "██████  ██    ██ ██████   ██████ ██   ██  █████  ███████ ███████");
+        System.out.println("\t\t" + TEXT_YELLOW + "██   ██ ██    ██ ██   ██ ██      ██   ██ ██   ██ ██      ██     ");
+        System.out.println("\t\t" + TEXT_YELLOW + "██████  ██    ██ ██████  ██      ███████ ███████ ███████ █████  ");
+        System.out.println("\t\t" + TEXT_YELLOW + "██      ██    ██ ██   ██ ██      ██   ██ ██   ██      ██ ██     ");
+        System.out.println("\t\t" + TEXT_YELLOW + "██       ██████  ██   ██  ██████ ██   ██ ██   ██ ███████ ███████" + TEXT_RESET);
+        displayAllWeapon();
+
+        Queue data = new Queue();
         String customerIC = null;
         String customerName = null;
         String weaID = null;
@@ -370,30 +466,32 @@ public class Main {
         double total = 0.00;
         Category catObj = null;
         Weapon weaObj = null;
-        char choice = 'y';
+        int ch = 0;
 
-        System.out.print("Customer's IC: ");
+        System.out.println("\n\t\t\t\t"  + TEXT_YELLOW + "=========== PURCHASE DETAIL ===========" + TEXT_RESET);
+        System.out.print("\n\t\t\t\t"  + "Customer's IC: ");
         customerIC = in.nextLine();
 
-        System.out.print("Customer's Name: ");
+        System.out.print("\t\t\t\t"  + "Customer's Name: ");
         customerName = in.nextLine();
-        while(choice == 'y' || choice == 'Y') {
+        while(ch == 0) {
 
             while(true) {
-                System.out.print("Weapon ID: ");
+                System.out.print("\t\t\t\t"  +  "Weapon ID: ");
                 weaID = in.nextLine();
                 weaObj = Weapon.search(weaID);
 
                 if(weaObj != null) {
-                    System.out.println("\n======== WEAPON DETAIL ======== ");
-                    System.out.println(weaObj.toString());
+                    System.out.println("\n\t\t\t\t"  + "======== WEAPON DETAIL ======== ");
+                    System.out.println("\n\t\t\t\t"  + weaObj.toString());
                     break;
                 } else {
-                    System.out.println("Weapon ID is invalid or not exist!");
+                    // System.out.println("Weapon ID is invalid or not exist!");
+                    JOptionPane.showMessageDialog(null, "Weapon ID is invalid or not exist!", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
 
-            System.out.print("Quantity: ");
+            System.out.print("\n\t\t\t\t"  + "Quantity: ");
             quantity = Integer.parseInt(in.nextLine());
 
             catObj = Category.search(weaObj.getCID());
@@ -401,21 +499,32 @@ public class Main {
             data.enqueue(obj);
 
             total += obj.totalPrice();
-            System.out.println("=========== Total Price: RM" + total + " ===========");
-            System.out.println("\nShopping more ? \n[Y] - yessir \n[N] - nossir");
-            choice = in.nextLine().charAt(0);
-            if(choice == 'y' || choice == 'Y') {
+            System.out.println("\n\t\t\t\t"  + "=========== Total Price: RM" + df.format(total) + " ===========");
+            ch = JOptionPane.showConfirmDialog(null, "Shopping more? ", "Confirmation", JOptionPane.YES_NO_OPTION);
+            // choice = in.nextLine().charAt(0);
+            if(ch == 0) {
                 System.out.print("\u000C");
-                System.out.println("Customer's IC: " + customerIC);
-                System.out.println("Customer's Name: " + customerName + "\n");
+                System.out.print("\033[H\033[2J");
+                System.out.println("\t\t" + TEXT_YELLOW + "██████  ██    ██ ██████   ██████ ██   ██  █████  ███████ ███████");
+                System.out.println("\t\t" + TEXT_YELLOW + "██   ██ ██    ██ ██   ██ ██      ██   ██ ██   ██ ██      ██     ");
+                System.out.println("\t\t" + TEXT_YELLOW + "██████  ██    ██ ██████  ██      ███████ ███████ ███████ █████  ");
+                System.out.println("\t\t" + TEXT_YELLOW + "██      ██    ██ ██   ██ ██      ██   ██ ██   ██      ██ ██     ");
+                System.out.println("\t\t" + TEXT_YELLOW + "██       ██████  ██   ██  ██████ ██   ██ ██   ██ ███████ ███████" + TEXT_RESET);
+                displayAllWeapon();
+
+                System.out.println("\n\t\t\t\t"  + TEXT_YELLOW + "=========== PURCHASE DETAIL ===========" + TEXT_RESET);
+                System.out.println("\n\t\t\t\t"  + "Customer's IC: " + customerIC);
+                System.out.println("\t\t\t\t"  + "Customer's Name: " + customerName + "\n");
             }
         }
-        System.out.println("Are you confirm ? (⌐■_■)\n[Y] - yessir \n[N] - nossir");
-        choice = in.nextLine().charAt(0);
-        if(choice == 'y' || choice == 'Y' )
+        // ch = JOptionPane.showConfirmDialog(null, "Are you confirm? (⌐■_■)", "Confirmation", JOptionPane.OK_CANCEL_OPTION);
+        // // choice = in.nextLine().charAt(0);
+        ch = JOptionPane.showConfirmDialog(null, "Are you confirm? (⌐■_■)", "Confirmation", JOptionPane.OK_CANCEL_OPTION);
+        if(ch == 0 )
         {
             Sale.add(data);
-            System.out.println("Purchase checkout successfully!");
+            // System.out.println("Purchase checkout successfully!");
+            JOptionPane.showMessageDialog(null, "Purchase checkout successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
             pressAnyKey();
             adminMenu();
         }
@@ -426,33 +535,40 @@ public class Main {
     //search the the sales record
     static void searchSalesRecord() {
         System.out.print("\u000C");
+        System.out.print("\033[H\033[2J");
         Scanner in = new Scanner(System.in);
+
+        System.out.println("\t\t" + TEXT_YELLOW + "███████ ███████  █████  ██████   ██████ ██   ██     ██████  ███████  ██████  ██████  ██████  ██████ ");
+        System.out.println("\t\t" + TEXT_YELLOW + "██      ██      ██   ██ ██   ██ ██      ██   ██     ██   ██ ██      ██      ██    ██ ██   ██ ██   ██");
+        System.out.println("\t\t" + TEXT_YELLOW + "███████ █████   ███████ ██████  ██      ███████     ██████  █████   ██      ██    ██ ██████  ██   ██");
+        System.out.println("\t\t" + TEXT_YELLOW + "     ██ ██      ██   ██ ██   ██ ██      ██   ██     ██   ██ ██      ██      ██    ██ ██   ██ ██   ██");
+        System.out.println("\t\t" + TEXT_YELLOW + "███████ ███████ ██   ██ ██   ██  ██████ ██   ██     ██   ██ ███████  ██████  ██████  ██   ██ ██████ " + TEXT_RESET);
+
         String ic;
         double total = 0.00;
-
-        System.out.println("Customer IC: ");
+        System.out.print("\n\t\t\t\t"  +  "Customer IC: ");
         ic = in.nextLine();
 
         LinkedList record = Sale.searchRecord(ic);
         Sale data = (Sale)record.getHead();
-        System.out.println("============= RESULT =============\n");
+        System.out.println("\n\t\t\t\t\t============= RESULT =============\n");
 
-        System.out.format("+-----------------+----------------------+----------------------+-----------------+---------------------+%n");
-        System.out.format("| IC NUMBER       | NAME                 | WEAPON  BOUGHT       | QUANTITY        | TOTAL PRICE (RM)    |%n");
-        System.out.format("+-----------------+----------------------+----------------------+-----------------+---------------------+%n");
+        System.out.format("\t+-----------------+----------------------+----------------------+-----------------+---------------------+%n");
+        System.out.format("\t| IC NUMBER       | NAME                 | WEAPON  BOUGHT       | QUANTITY        | TOTAL PRICE (RM)    |%n");
+        System.out.format("\t+-----------------+----------------------+----------------------+-----------------+---------------------+%n");
         if(data == null) {
-            System.out.println("IC does not exist in the record!");
+            JOptionPane.showMessageDialog(null, "Record does not exist!", "ERROR", JOptionPane.ERROR_MESSAGE);
             pressAnyKey();
             adminMenu();
         } else {
 
             while(data != null) {
-                System.out.format("| %-15s | %-20s | %-20s | %-15s | %-20s|\n", data.getCustomerIC(), data.getCustomerName(), data.getWeaponName(), data.getQuantity(), "RM"+ df.format(data.totalPrice()));
+                System.out.format("\t| %-15s | %-20s | %-20s | %-15s | %-20s|\n", data.getCustomerIC(), data.getCustomerName(), data.getWeaponName(), data.getQuantity(), "RM"+ df.format(data.totalPrice()));
                 total += data.totalPrice();
                 data = (Sale)record.getNext();
             }
-            System.out.format("+-----------------+----------------------+----------------------+-----------------+---------------------+%n");
-            System.out.println("\n=========== Total Purchase: RM" + total + " ===========");
+            System.out.format("\t+-----------------+----------------------+----------------------+-----------------+---------------------+%n");
+            System.out.println("\n\t\t\t\t=========== Total Purchase: RM" + df.format(total) + " ===========");
             pressAnyKey();
             adminMenu();
         }
@@ -461,21 +577,29 @@ public class Main {
     //delete sales record
     static void deletePurchaseRecord() {
         
+        System.out.print("\u000C");
+        System.out.print("\033[H\033[2J");
         Scanner in = new Scanner(System.in);
         LinkedList saleList = Sale.getAllSales();
         Queue saleQueue = new Queue();
-        char choice = 'y';
+        int ch = 0;
 
-        while(choice == 'y' || choice == 'Y') {
+        System.out.println("\t\t" + TEXT_YELLOW + "██████  ███████ ██      ███████ ████████ ███████     ██████  ███████  ██████  ██████  ██████  ██████ ");
+        System.out.println("\t\t" + TEXT_YELLOW + "██   ██ ██      ██      ██         ██    ██          ██   ██ ██      ██      ██    ██ ██   ██ ██   ██");
+        System.out.println("\t\t" + TEXT_YELLOW + "██   ██ █████   ██      █████      ██    █████       ██████  █████   ██      ██    ██ ██████  ██   ██");
+        System.out.println("\t\t" + TEXT_YELLOW + "██   ██ ██      ██      ██         ██    ██          ██   ██ ██      ██      ██    ██ ██   ██ ██   ██");
+        System.out.println("\t\t" + TEXT_YELLOW + "██████  ███████ ███████ ███████    ██    ███████     ██   ██ ███████  ██████  ██████  ██   ██ ██████ " + TEXT_RESET);
+
+        while(ch == 0) {
             System.out.print("\u000C");
             saleList.displayList(saleList.head);
-            System.out.print("\nInsert Customer IC:");
+            System.out.print("\n\t\t\t\t"  +  "Insert Customer IC: ");
             String ic = in.nextLine();
             
             saleList.deleteCust(ic);
 
-            System.out.println("\nDelete more record ? \n[Y] - yessir \n[N] - nossir");
-            choice = in.nextLine().charAt(0);
+            ch = JOptionPane.showConfirmDialog(null, "Delete more record? ", "Confirmation", JOptionPane.YES_NO_OPTION);
+            // choice = in.nextLine().charAt(0);
         }
 
         //insert the linkedlist into queue
@@ -485,12 +609,13 @@ public class Main {
             data = (Sale)saleList.getNext();
         }
 
-        System.out.println("Are you confirm ? (⌐■_■)\n[Y] - yessir \n[N] - nossir");
-        choice = in.nextLine().charAt(0);
-        if(choice == 'y' || choice == 'Y' )
+        ch = JOptionPane.showConfirmDialog(null, "Are you confirm? (⌐■_■)", "Confirmation", JOptionPane.OK_CANCEL_OPTION);
+        // choice = in.nextLine().charAt(0);
+        if(ch == 0 )
         {
             Sale.delete(saleQueue);
-            System.out.println("Record has been updated successfully!");
+            // System.out.println("Record has been updated successfully!");
+            JOptionPane.showMessageDialog(null, "Success!", "Info", JOptionPane.INFORMATION_MESSAGE);
             pressAnyKey();
             adminMenu();
         }
@@ -504,20 +629,27 @@ public class Main {
         
         System.out.print("\u000C");
         System.out.print("\033[H\033[2J");
+        
+        System.out.println("\t\t" + TEXT_GREEN + "██████╗ ███████╗██████╗  ██████╗ ██████╗ ████████╗██╗███╗   ██╗ ██████╗ ");
+        System.out.println("\t\t" + TEXT_GREEN + "██╔══██╗██╔════╝██╔══██╗██╔═══██╗██╔══██╗╚══██╔══╝██║████╗  ██║██╔════╝ ");
+        System.out.println("\t\t" + TEXT_GREEN + "██████╔╝█████╗  ██████╔╝██║   ██║██████╔╝   ██║   ██║██╔██╗ ██║██║  ███╗");
+        System.out.println("\t\t" + TEXT_GREEN + "██╔══██╗██╔══╝  ██╔═══╝ ██║   ██║██╔══██╗   ██║   ██║██║╚██╗██║██║   ██║");
+        System.out.println("\t\t" + TEXT_GREEN + "██║  ██║███████╗██║     ╚██████╔╝██║  ██║   ██║   ██║██║ ╚████║╚██████╔" + TEXT_RESET);
+
         Scanner in = new Scanner(System.in);
-        System.out.println("[1] Total sale of each category");
-        System.out.println("[2] Find highest weapon's category sold");
-        System.out.println("[3] Count total weapon sold by each category");
-        System.out.println("[4] Calculate the average sales by each category");
-        System.out.println("[5] Check all the report");
-        System.out.println("[99] Back to Admin Menu");
+        System.out.println("\n\t\t\t\t"  + TEXT_YELLOW + "[1] Total sale of each category");
+        System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[2] Find highest weapon's category sold");
+        System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[3] Count total weapon sold by each category");
+        System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[4] Calculate the average sales by each category");
+        System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[5] Check all the report");
+        System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[99] Back to Admin Menu");
 
         boolean notValid = true;
         int choice = -1;
-
+        System.out.println();
         while(notValid) {
 
-            System.out.print("Enter choice: ");
+            System.out.print("\n\t\t\t"  + TEXT_YELLOW + "Enter choice: " + TEXT_RESET);
             choice = Integer.parseInt(in.nextLine());
             switch(choice) {
                 case 1:
@@ -559,12 +691,23 @@ public class Main {
                     notValid = false;
                     adminMenu();
                 default:
-                    System.out.println("Ehem! Invalid choice..");
+                    JOptionPane.showMessageDialog(null, "Invalid input.. Ehem! (⌐■_■)", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
+
     static void displayAllReport() {
+        System.out.print("\u000C");
+        System.out.print("\033[H\033[2J");
+        
+        System.out.println("\t\t" + TEXT_GREEN + "██████╗ ███████╗██████╗  ██████╗ ██████╗ ████████╗██╗███╗   ██╗ ██████╗ ");
+        System.out.println("\t\t" + TEXT_GREEN + "██╔══██╗██╔════╝██╔══██╗██╔═══██╗██╔══██╗╚══██╔══╝██║████╗  ██║██╔════╝ ");
+        System.out.println("\t\t" + TEXT_GREEN + "██████╔╝█████╗  ██████╔╝██║   ██║██████╔╝   ██║   ██║██╔██╗ ██║██║  ███╗");
+        System.out.println("\t\t" + TEXT_GREEN + "██╔══██╗██╔══╝  ██╔═══╝ ██║   ██║██╔══██╗   ██║   ██║██║╚██╗██║██║   ██║");
+        System.out.println("\t\t" + TEXT_GREEN + "██║  ██║███████╗██║     ╚██████╔╝██║  ██║   ██║   ██║██║ ╚████║╚██████╔" + TEXT_RESET);
+
+        System.out.println("\n\t\t\t\t"  + TEXT_YELLOW + "============== ALL WEAPON RECORD ==============" + TEXT_RESET);
         displayAllWeapon();
         calcSaleByCategory();
         FindHighestByCat();
@@ -574,6 +717,7 @@ public class Main {
 
     static void calcSaleByCategory() {
         
+        System.out.println("\n\t\t\t\t"  + TEXT_YELLOW + "============== SALE BY CATEGORY ==============" + TEXT_RESET);
         LinkedList saleList = Sale.getAllSales();
         LinkedList catList = Category.getAllCategory();
         catList.head = catList.mergeSortByName(catList.head);
@@ -581,9 +725,9 @@ public class Main {
         Node temp = catList.head;
 
         catHead = temp;
-        System.out.format("+------------+----------------------+-----------------+%n");
-        System.out.format("| ID         | CATEGORY             | PRICE (RM)      |%n");
-        System.out.format("+------------+----------------------+-----------------+%n");
+        System.out.format("\t\t\t+------------+----------------------+-----------------+%n");
+        System.out.format("\t\t\t| ID         | CATEGORY             | PRICE (RM)      |%n");
+        System.out.format("\t\t\t+------------+----------------------+-----------------+%n");
 
         while(catHead != null) {
             double total = 0.00;
@@ -598,10 +742,10 @@ public class Main {
                 saleData = (Sale)saleList.getNext();
             }
             // System.out.println("Total Sales: RM" + total);
-            System.out.format("| %-10s | %-20s | %-15s |\n", catObj.getCID(), catObj.getCName(), "RM" + df.format(total));
+            System.out.format("\t\t\t| %-10s | %-20s | %-15s |\n", catObj.getCID(), catObj.getCName(), "RM" + df.format(total));
             catHead = catHead.next;
         }
-        System.out.format("+------------+----------------------+-----------------+%n");
+        System.out.format("\t\t\t+------------+----------------------+-----------------+%n");
     }
 
 
@@ -609,29 +753,20 @@ public class Main {
     static void mainMenu() {
         System.out.print("\u000C");
         System.out.print("\033[H\033[2J");
-        
-        System.out.println("\t\t" + TEXT_RED + " ███▄ ▄███▓ ▒█████   ██▀███  ▄▄▄█████▓ ▄▄▄       ██▓    ");
-        System.out.println("\t\t" + TEXT_RED + "▓██▒▀█▀ ██▒▒██▒  ██▒▓██ ▒ ██▒▓  ██▒ ▓▒▒████▄    ▓██▒    ");
-        System.out.println("\t\t" + TEXT_RED + "▓██    ▓██░▒██░  ██▒▓██ ░▄█ ▒▒ ▓██░ ▒░▒██  ▀█▄  ▒██░    ");
-        System.out.println("\t\t" + TEXT_RED + "▒██    ▒██ ▒██   ██░▒██▀▀█▄  ░ ▓██▓ ░ ░██▄▄▄▄██ ▒██░    ");
-        System.out.println("\t\t" + TEXT_RED + "▒██▒   ░██▒░ ████▓▒░░██▓ ▒██▒  ▒██▒ ░  ▓█   ▓██▒░██████▒");
-        System.out.println("\t\t" + TEXT_RED + "░ ▒░   ░  ░░ ▒░▒░▒░ ░ ▒▓ ░▒▓░  ▒ ░░    ▒▒   ▓▒█░░ ▒░▓  ░");
-        System.out.println("\t\t" + TEXT_RED + "░         ░    ▒ ▒    ░▒ ░ ▒     ░      ▒   ▒▒ ░░ ░ ▒   " + TEXT_RESET);
-        System.out.println("\n\t\t\t" + "FIRST WEAPON ARMORY STORE SALE SYSTEM V1.0");
-        System.out.println("\t\t\t\t" + "[THE BIGGER, THE BETTER]");
-        System.out.println("\t\t" + "  DEVELOPED BY: NOOR RAIHAN, IMTIAZ AZIZ, MUHD SYAKIR");
+        displayTitle();
 
         Scanner in = new Scanner(System.in);
+        System.out.println("\n\t\t\t"  + TEXT_YELLOW + "============== MAIN SECTION ==============");
         System.out.println("\n\t\t\t\t"  + TEXT_YELLOW + "[1] Customer Section");
         System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[2] Staff Section");
         System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[99] Hasta la vista");
 
         boolean notValid = true;
         int choice;
-
+        System.out.println();
         while(notValid) {
 
-            System.out.print("\t\t\t"  + TEXT_YELLOW + "Enter choice: " + TEXT_RESET);
+            System.out.print("\n\t\t\t"  + TEXT_YELLOW + "Enter choice: " + TEXT_RESET);
             choice = Integer.parseInt(in.nextLine());
             switch(choice) {
                 case 1:
@@ -656,17 +791,20 @@ public class Main {
     static void customerMenu() {
         System.out.print("\u000C");
         System.out.print("\033[H\033[2J");
+        displayTitle();
+
         Scanner in = new Scanner(System.in);
-        System.out.println("\n[1] Purchase Weapon");
-        System.out.println("[2] Product List");
-        System.out.println("[99] Back to main menu");
+        System.out.println("\n\t\t\t"  + TEXT_YELLOW + "============== CUSTOMER SECTION ==============");
+        System.out.println("\n\t\t\t\t"  + TEXT_YELLOW + "[1] Purchase Weapon");
+        System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[2] Product List");
+        System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[99] Back to main menu");
 
         boolean notValid = true;
         int choice;
-
+        System.out.println();
         while(notValid) {
 
-            System.out.print("Enter choice: ");
+            System.out.print("\n\t\t\t"  + TEXT_YELLOW + "Enter choice: " + TEXT_RESET);
             choice = Integer.parseInt(in.nextLine());
             switch(choice) {
                 case 1:
@@ -678,8 +816,7 @@ public class Main {
                     notValid = false;
                     //list product menu go here
                     // displayAllWeapon();
-                    displayAllWeaponByCategory();
-                    pressAnyKey();
+                    displayWeapon();
                     customerMenu();
                     break;
                 case 99:
@@ -687,7 +824,7 @@ public class Main {
                     mainMenu();
                     break;
                 default:
-                    System.out.println("Ehem! Invalid choice..");
+                    JOptionPane.showMessageDialog(null, "Invalid input.. Ehem! (⌐■_■)", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -695,22 +832,25 @@ public class Main {
     static void adminMenu() {
         System.out.print("\u000C");
         System.out.print("\033[H\033[2J");
+        displayTitle();
+
         Scanner in = new Scanner(System.in);
-        System.out.println("\n[1] Register new Category");
-        System.out.println("[2] Register new Weapon");
-        System.out.println("[3] List of all Weapon");
-        System.out.println("[4] All Customer's record");
-        System.out.println("[5] Search customer record");
-        System.out.println("[6] Delete customer record");
-        System.out.println("[7] Reporting");
-        System.out.println("[99] Back to main menu");
+        System.out.println("\n\t\t\t"  + TEXT_YELLOW + "============== STAFF SECTION ==============");
+        System.out.println("\n\t\t\t\t"  + TEXT_YELLOW + "[1] Register new Category");
+        System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[2] Register new Weapon");
+        System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[3] List of all Weapon");
+        System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[4] All Customer's record");
+        System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[5] Search customer record");
+        System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[6] Delete customer record");
+        System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[7] Reporting");
+        System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[99] Back to main menu");
 
         boolean notValid = true;
         int choice;
-
+        System.out.println();
         while(notValid) {
 
-            System.out.print("Enter choice: ");
+            System.out.print("\t\t\t"  + TEXT_YELLOW + "Enter choice: " + TEXT_RESET);
             choice = Integer.parseInt(in.nextLine());
             switch(choice) {
                 case 1:
@@ -726,11 +866,20 @@ public class Main {
                 case 3:
                     notValid = false;
                     //list function go here
+                    displayWeapon();
+                    adminMenu();
                     break;
                 case 4:
                     notValid = false;
                     //search function go here
                     System.out.print("\u000C");
+                    System.out.print("\033[H\033[2J");
+                    System.out.println("\t\t" + TEXT_YELLOW + " ██████ ██    ██ ███████ ████████  ██████  ███    ███ ███████ ██████      ██████  ███████  ██████  ██████  ██████  ██████");
+                    System.out.println("\t\t" + TEXT_YELLOW + "██      ██    ██ ██         ██    ██    ██ ████  ████ ██      ██   ██     ██   ██ ██      ██      ██    ██ ██   ██ ██   ██");
+                    System.out.println("\t\t" + TEXT_YELLOW + "██      ██    ██ ███████    ██    ██    ██ ██ ████ ██ █████   ██████      ██████  █████   ██      ██    ██ ██████  ██   ██");
+                    System.out.println("\t\t" + TEXT_YELLOW + "██      ██    ██      ██    ██    ██    ██ ██  ██  ██ ██      ██   ██     ██   ██ ██      ██      ██    ██ ██   ██ ██   ██");
+                    System.out.println("\t\t" + TEXT_YELLOW + " ██████  ██████  ███████    ██     ██████  ██      ██ ███████ ██   ██     ██   ██ ███████  ██████  ██████  ██   ██ ██████ " + TEXT_RESET);
+
                     displaySaleRecord();
                     pressAnyKey();
                     adminMenu();
@@ -755,9 +904,22 @@ public class Main {
                     mainMenu();
                     break;
                 default:
-                    System.out.println("Ehem! Invalid choice..");
+                    JOptionPane.showMessageDialog(null, "Invalid input.. Ehem! (⌐■_■)", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    static void displayTitle() {
+        System.out.println("\t\t" + TEXT_RED + " ███▄ ▄███▓ ▒█████   ██▀███  ▄▄▄█████▓ ▄▄▄       ██▓    ");
+        System.out.println("\t\t" + TEXT_RED + "▓██▒▀█▀ ██▒▒██▒  ██▒▓██ ▒ ██▒▓  ██▒ ▓▒▒████▄    ▓██▒    ");
+        System.out.println("\t\t" + TEXT_RED + "▓██    ▓██░▒██░  ██▒▓██ ░▄█ ▒▒ ▓██░ ▒░▒██  ▀█▄  ▒██░    ");
+        System.out.println("\t\t" + TEXT_RED + "▒██    ▒██ ▒██   ██░▒██▀▀█▄  ░ ▓██▓ ░ ░██▄▄▄▄██ ▒██░    ");
+        System.out.println("\t\t" + TEXT_RED + "▒██▒   ░██▒░ ████▓▒░░██▓ ▒██▒  ▒██▒ ░  ▓█   ▓██▒░██████▒");
+        System.out.println("\t\t" + TEXT_RED + "░ ▒░   ░  ░░ ▒░▒░▒░ ░ ▒▓ ░▒▓░  ▒ ░░    ▒▒   ▓▒█░░ ▒░▓  ░");
+        System.out.println("\t\t" + TEXT_RED + "░         ░    ▒ ▒    ░▒ ░ ▒     ░      ▒   ▒▒ ░░ ░ ▒   " + TEXT_RESET);
+        System.out.println("\n\t\t\t" + "FIRST WEAPON ARMORY STORE SALE SYSTEM V1.0");
+        System.out.println("\t\t\t\t" + "[THE BIGGER, THE BETTER]");
+        System.out.println("\t\t" + "  DEVELOPED BY: NOOR RAIHAN, IMTIAZ AZIZ, MUHD SYAKIR");
     }
 
     static void FindHighestByCat()
@@ -788,11 +950,12 @@ public class Main {
             }
             catData = (Category)catList.getNext();
         }
-        System.out.println("The highest weapon's category sold is " + catHighest.getCName());
+        System.out.println("\t\tThe highest weapon's category sold is " + TEXT_GREEN + catHighest.getCName() + TEXT_RESET);
     }
 
     static void CountWeaponSoldByCat()
     {
+        System.out.println("\n\t\t\t\t"  + TEXT_YELLOW + "============== TOTAL WEAPON SOLD BY CATEGORY==============" + TEXT_RESET);
         LinkedList saleList = Sale.getAllSales();
         LinkedList catList = Category.getAllCategory();
         catList.head = catList.mergeSortByName(catList.head);
@@ -801,9 +964,9 @@ public class Main {
         
         catHead = temp;
         int count = 0;
-        System.out.format("+------------+----------------------+-----------------+%n");
-        System.out.format("| ID         | CATEGORY             | QUANTITY        |%n");
-        System.out.format("+------------+----------------------+-----------------+%n");
+        System.out.format("\t\t\t+------------+----------------------+-----------------+%n");
+        System.out.format("\t\t\t| ID         | CATEGORY             | QUANTITY        |%n");
+        System.out.format("\t\t\t+------------+----------------------+-----------------+%n");
         while(catHead != null)
         {
             Category catObj = (Category)catHead.data;
@@ -817,15 +980,15 @@ public class Main {
                 }
                 saleData = (Sale)saleList.getNext();
             }
-            System.out.format("| %-10s | %-20s | %-15s |\n", catObj.getCID(), catObj.getCName(), count);
+            System.out.format("\t\t\t| %-10s | %-20s | %-15s |\n", catObj.getCID(), catObj.getCName(), count);
             catHead = catHead.next;
         }
-        System.out.format("+------------+----------------------+-----------------+%n");
+        System.out.format("\t\t\t+------------+----------------------+-----------------+%n");
     }
 
     static void CalcAverageSalesByCat()
     {
-        
+        System.out.println("\n\t\t\t\t"  + TEXT_YELLOW + "============== WEAPON SALE AVERAGE BY CATEGORY=============="+ TEXT_RESET);
         LinkedList saleList = Sale.getAllSales();
         LinkedList catList = Category.getAllCategory();
         catList.head = catList.mergeSortByName(catList.head);
@@ -835,9 +998,9 @@ public class Main {
         double average = 0.00;
         int count = 0;
         catHead = temp;
-        System.out.format("+------------+----------------------+-----------------+%n");
-        System.out.format("| ID         | CATEGORY             | AVERAGE (RM)    |%n");
-        System.out.format("+------------+----------------------+-----------------+%n");
+        System.out.format("\t\t\t+------------+----------------------+-----------------+%n");
+        System.out.format("\t\t\t| ID         | CATEGORY             | AVERAGE (RM)    |%n");
+        System.out.format("\t\t\t+------------+----------------------+-----------------+%n");
         while(catHead != null) {
             double total = 0.00;
             Category catObj = (Category)catHead.data;
@@ -857,10 +1020,10 @@ public class Main {
             else
                 average = total/count;
             // System.out.println("The average sales : RM" + average);
-            System.out.format("| %-10s | %-20s | %-15s |\n", catObj.getCID(), catObj.getCName(), "RM" + df.format(average));
+            System.out.format("\t\t\t| %-10s | %-20s | %-15s |\n", catObj.getCID(), catObj.getCName(), "RM" + df.format(average));
             catHead = catHead.next;
         }
-        System.out.format("+------------+----------------------+-----------------+%n");
+        System.out.format("\t\t\t+------------+----------------------+-----------------+%n");
     }
 
     public static void main(String []  args) {
