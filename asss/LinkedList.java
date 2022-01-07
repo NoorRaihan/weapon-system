@@ -1,10 +1,14 @@
 import java.text.*;
+import javax.swing.*;
+
 public class LinkedList {
 
     Node head;
     Node tail;
     Node curr;
     DecimalFormat df = new DecimalFormat("0.00");
+    JFrame j = new JFrame();
+
     public LinkedList() {
         this.head = this.curr = this.tail = null;
     }
@@ -142,11 +146,13 @@ public class LinkedList {
 
         //ic not exist in the list
         if(!exist) {
-            System.out.println("No Record Found for this IC");
+            // System.out.println("No Record Found for this IC");
+            JOptionPane.showMessageDialog(null, "No Record Found for this IC", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        System.out.println("Record for " + ic + " is deleted!");
+        // System.out.println("Record for " + ic + " is deleted!");
+        JOptionPane.showMessageDialog(null, "Record for " + ic + " is deleted!", "Info", JOptionPane.INFORMATION_MESSAGE);
     }
 
     //merge sort algorithm
@@ -293,17 +299,17 @@ public class LinkedList {
         Object data = head.data;
 
         if(data.getClass().toString().equalsIgnoreCase("class Category")) {
-            System.out.format("+------------+----------------------+%n");
-            System.out.format("| ID         | NAME                 |%n");
-            System.out.format("+------------+----------------------+%n");
+            System.out.format("\t\t\t\t+------------+----------------------+%n");
+            System.out.format("\t\t\t\t| ID         | NAME                 |%n");
+            System.out.format("\t\t\t\t+------------+----------------------+%n");
         } else if(data.getClass().toString().equalsIgnoreCase("class Sale")) {
-            System.out.format("+-----------------+----------------------+----------------------+-----------------+---------------------+%n");
-            System.out.format("| IC NUMBER       | NAME                 | WEAPON  BOUGHT       | QUANTITY        | TOTAL PRICE (RM)    |%n");
-            System.out.format("+-----------------+----------------------+----------------------+-----------------+---------------------+%n");
+            System.out.format("\t\t+-----------------+----------------------+----------------------+-----------------+---------------------+%n");
+            System.out.format("\t\t| IC NUMBER       | NAME                 | WEAPON  BOUGHT       | QUANTITY        | TOTAL PRICE (RM)    |%n");
+            System.out.format("\t\t+-----------------+----------------------+----------------------+-----------------+---------------------+%n");
         } else {
-            System.out.format("+------------+----------------------+----------------------+-----------------+%n");
-            System.out.format("| ID         | CATEGORY             | NAME                 | PRICE (RM)      |%n");
-            System.out.format("+------------+----------------------+----------------------+-----------------+%n");
+            System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
+            System.out.format("\t\t| ID         | CATEGORY             | NAME                 | PRICE (RM)      |%n");
+            System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
         }
 
         while(head != null) {
@@ -311,25 +317,25 @@ public class LinkedList {
 
             if(data.getClass().toString().equalsIgnoreCase("class Category")) {
                 Category obj = (Category)head.data;
-                System.out.format("| %-10s | %-20s |\n", obj.getCID(), obj.getCName());
+                System.out.format("\t\t\t\t| %-10s | %-20s |\n", obj.getCID(), obj.getCName());
             } else if(data.getClass().toString().equalsIgnoreCase("class Sale")) {
                 Sale obj = (Sale)head.data;
                 double total = obj.totalPrice();
-                System.out.format("| %-15s | %-20s | %-20s | %-15s | %-20s|\n", obj.getCustomerIC(), obj.getCustomerName(), obj.getWeaponName(), obj.getQuantity(), "RM"+ df.format(total));
+                System.out.format("\t\t| %-15s | %-20s | %-20s | %-15s | %-20s|\n", obj.getCustomerIC(), obj.getCustomerName(), obj.getWeaponName(), obj.getQuantity(), "RM"+ df.format(total));
             } else {
                 Weapon obj = (Weapon)head.data;
-                System.out.format("| %-10s | %-20s | %-20s | %-15s |\n", obj.getWeaponID(), obj.getCName(), obj.getWeaponName(), "RM" + df.format(obj.getWeaponPrice()));
+                System.out.format("\t\t| %-10s | %-20s | %-20s | %-15s |\n", obj.getWeaponID(), obj.getCName(), obj.getWeaponName(), "RM" + df.format(obj.getWeaponPrice()));
             }
             // System.out.println(obj.toString());
             head = head.next;
         }
 
         if(data.getClass().toString().equalsIgnoreCase("class Category")) {
-            System.out.format("+------------+----------------------+%n");
+            System.out.format("\t\t\t\t+------------+----------------------+%n");
         } else if(data.getClass().toString().equalsIgnoreCase("class Sale")) {
-            System.out.format("+-----------------+----------------------+----------------------+-----------------+---------------------+%n");
+            System.out.format("\t\t+-----------------+----------------------+----------------------+-----------------+---------------------+%n");
         } else {
-            System.out.format("+------------+----------------------+----------------------+-----------------+%n");
+            System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
         }
     }
     

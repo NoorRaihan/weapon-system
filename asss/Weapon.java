@@ -124,9 +124,9 @@ public class Weapon extends Category {
 
     //toString
     public String toString() {
-        return "\nWeapon ID: " + weaponID +
-        "\nWeapon Category ID: " + super.getCID() + "(" + super.getCName() + ")" +
-        "\nWeapon Name: " + weaponName +
-        "\nWeapon Price : RM" + weaponPrice;
+        return "\n\t\t\t\t"  +"Weapon ID: " + weaponID +
+        "\n\t\t\t\t"  + "Weapon Category ID: " + super.getCID() + "(" + super.getCName() + ")" +
+        "\n\t\t\t\t"  + "Weapon Name: " + weaponName +
+        "\n\t\t\t\t"  + "Weapon Price : RM" + weaponPrice;
     }
 }
