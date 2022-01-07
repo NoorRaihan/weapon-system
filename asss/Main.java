@@ -121,7 +121,7 @@ public class Main {
             count++;
         }
 
-        //add function go here lmbfao
+        //add function go here 
         if(cID != null)
         {
             ch = JOptionPane.showConfirmDialog(null, "Are you confirm? (⌐■_■)", "Confirmation", JOptionPane.OK_CANCEL_OPTION);
@@ -271,6 +271,7 @@ public class Main {
         weaList.displayList(weaList.head);
     }
 
+    //display all weapon by price
     static void displayAllWeaponByPrice() {
         System.out.print("\u000C");
         LinkedList weaList = Weapon.getAllWeapon();
@@ -278,6 +279,7 @@ public class Main {
         weaList.displayList(weaList.head);
     }
 
+    //display all category
     static void displayCategory() {
         System.out.print("\u000C");
         LinkedList catList = Category.getAllCategory();
@@ -392,6 +394,7 @@ public class Main {
         System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
     }
 
+    //display weapon title hoho :3
     static void displayWeaTitle() {
         System.out.println("\t\t" + TEXT_YELLOW + "██     ██ ███████  █████  ██████   ██████  ███    ██");
         System.out.println("\t\t" + TEXT_YELLOW + "██     ██ ██      ██   ██ ██   ██ ██    ██ ████   ██");
@@ -400,6 +403,7 @@ public class Main {
         System.out.println("\t\t" + TEXT_YELLOW + " ███ ███  ███████ ██   ██ ██       ██████  ██   ████" + TEXT_RESET);
     }
 
+    //display weapon menu hehe :3
     static void displayWeapon() {
         System.out.print("\u000C");
         System.out.print("\033[H\033[2J");
@@ -408,6 +412,7 @@ public class Main {
 
         System.out.println("\n\t\t\t\t"  + TEXT_YELLOW + "[1] All Weapon By Category");
         System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[2] All Weapon By Price");
+        System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[3] All Weapon By ID");
         System.out.println("\t\t\t\t"  + TEXT_YELLOW + "[99] Back to menu");
 
         boolean notValid = true;
@@ -433,6 +438,15 @@ public class Main {
                     System.out.print("\033[H\033[2J");
                     displayWeaTitle();
                     displayAllWeaponByPrice();
+                    pressAnyKey();
+                    displayWeapon();
+                    break;
+                case 3:
+                    notValid = false;
+                    System.out.print("\u000C");
+                    System.out.print("\033[H\033[2J");
+                    displayWeaTitle();
+                    displayAllWeapon();
                     pressAnyKey();
                     displayWeapon();
                     break;
@@ -696,7 +710,7 @@ public class Main {
         }
     }
 
-
+    //display record summary
     static void displayAllReport() {
         System.out.print("\u000C");
         System.out.print("\033[H\033[2J");
@@ -715,6 +729,7 @@ public class Main {
         CalcAverageSalesByCat();
     }
 
+    //calculate sales by category
     static void calcSaleByCategory() {
         
         System.out.println("\n\t\t\t\t"  + TEXT_YELLOW + "============== SALE BY CATEGORY ==============" + TEXT_RESET);
@@ -788,6 +803,7 @@ public class Main {
         }
     }
 
+    //display customer's menu
     static void customerMenu() {
         System.out.print("\u000C");
         System.out.print("\033[H\033[2J");
@@ -829,6 +845,7 @@ public class Main {
         }
     }
 
+    //display admin's menu
     static void adminMenu() {
         System.out.print("\u000C");
         System.out.print("\033[H\033[2J");
@@ -909,6 +926,7 @@ public class Main {
         }
     }
 
+    //display main title
     static void displayTitle() {
         System.out.println("\t\t" + TEXT_RED + " ███▄ ▄███▓ ▒█████   ██▀███  ▄▄▄█████▓ ▄▄▄       ██▓    ");
         System.out.println("\t\t" + TEXT_RED + "▓██▒▀█▀ ██▒▒██▒  ██▒▓██ ▒ ██▒▓  ██▒ ▓▒▒████▄    ▓██▒    ");
@@ -922,6 +940,7 @@ public class Main {
         System.out.println("\t\t" + "  DEVELOPED BY: NOOR RAIHAN, IMTIAZ AZIZ, MUHD SYAKIR");
     }
 
+    //find highest category sold
     static void FindHighestByCat()
     {
         LinkedList saleList = Sale.getAllSales();
@@ -953,6 +972,7 @@ public class Main {
         System.out.println("\t\tThe highest weapon's category sold is " + TEXT_GREEN + catHighest.getCName() + TEXT_RESET);
     }
 
+    //count total weapon sold by each category
     static void CountWeaponSoldByCat()
     {
         System.out.println("\n\t\t\t\t"  + TEXT_YELLOW + "============== TOTAL WEAPON SOLD BY CATEGORY==============" + TEXT_RESET);
@@ -986,6 +1006,7 @@ public class Main {
         System.out.format("\t\t\t+------------+----------------------+-----------------+%n");
     }
 
+    //calculate average sales by each category
     static void CalcAverageSalesByCat()
     {
         System.out.println("\n\t\t\t\t"  + TEXT_YELLOW + "============== WEAPON SALE AVERAGE BY CATEGORY=============="+ TEXT_RESET);
@@ -1026,8 +1047,9 @@ public class Main {
         System.out.format("\t\t\t+------------+----------------------+-----------------+%n");
     }
 
+    //main function
     public static void main(String []  args) {
-        //code here
+        //simple :3
         mainMenu();
     }
 }
