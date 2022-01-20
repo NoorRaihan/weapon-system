@@ -1,5 +1,8 @@
 import java.text.*;
+import java.util.Vector;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class LinkedList {
 
@@ -297,20 +300,36 @@ public class LinkedList {
     public void displayList(Node head) {
 
         Object data = head.data;
+        JFrame f = new JFrame();
+        DefaultTableModel dtm;
+
+        
 
         if(data.getClass().toString().equalsIgnoreCase("class Category")) {
             System.out.format("\t\t\t\t+------------+----------------------+%n");
             System.out.format("\t\t\t\t| ID         | NAME                 |%n");
             System.out.format("\t\t\t\t+------------+----------------------+%n");
+            String header[] = new String[] {"ID","NAME"};
+            dtm = new DefaultTableModel(header,0);
         } else if(data.getClass().toString().equalsIgnoreCase("class Sale")) {
             System.out.format("\t\t+-----------------+----------------------+----------------------+-----------------+---------------------+%n");
             System.out.format("\t\t| IC NUMBER       | NAME                 | WEAPON  BOUGHT       | QUANTITY        | TOTAL PRICE (RM)    |%n");
             System.out.format("\t\t+-----------------+----------------------+----------------------+-----------------+---------------------+%n");
+            String header[] = new String[]{"IC NUMBER", "NAME", "WEAPON BOUGHT", "QUANTITY", "TOTAL PRICE (RM)"};
+            dtm = new DefaultTableModel(header,0);
         } else {
             System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
             System.out.format("\t\t| ID         | CATEGORY             | NAME                 | PRICE (RM)      |%n");
             System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
+            String header[] = new String[]{"ID","CATEGORY","NAME","PRICE (RM)"};
+            dtm = new DefaultTableModel(header,0);
         }
+
+        
+        JTable table = new JTable(dtm);
+        dtm.setRowCount(0);
+
+        
 
         while(head != null) {
             
@@ -318,15 +337,22 @@ public class LinkedList {
             if(data.getClass().toString().equalsIgnoreCase("class Category")) {
                 Category obj = (Category)head.data;
                 System.out.format("\t\t\t\t| %-10s | %-20s |\n", obj.getCID(), obj.getCName());
+                Object[] objs = {obj.getCID(), obj.getCName()};
+                dtm.addRow(objs);
             } else if(data.getClass().toString().equalsIgnoreCase("class Sale")) {
                 Sale obj = (Sale)head.data;
                 double total = obj.totalPrice();
                 System.out.format("\t\t| %-15s | %-20s | %-20s | %-15s | %-20s|\n", obj.getCustomerIC(), obj.getCustomerName(), obj.getWeaponName(), obj.getQuantity(), "RM"+ df.format(total));
+                Object[] objs = {obj.getCustomerIC(), obj.getCustomerName(), obj.getWeaponName(), obj.getQuantity(), "RM"+ df.format(total)};
+                dtm.addRow(objs);
             } else {
                 Weapon obj = (Weapon)head.data;
                 System.out.format("\t\t| %-10s | %-20s | %-20s | %-15s |\n", obj.getWeaponID(), obj.getCName(), obj.getWeaponName(), "RM" + df.format(obj.getWeaponPrice()));
+                Object[] objs = {obj.getWeaponID(), obj.getCName(), obj.getWeaponName(), "RM" + df.format(obj.getWeaponPrice())};
+                dtm.addRow(objs);
             }
             // System.out.println(obj.toString());
+            
             head = head.next;
         }
 
@@ -337,6 +363,9 @@ public class LinkedList {
         } else {
             System.out.format("\t\t+------------+----------------------+----------------------+-----------------+%n");
         }
+        f.setSize(550, 350);
+        f.add(new JScrollPane(table));
+        f.setVisible(true);
     }
     
 }

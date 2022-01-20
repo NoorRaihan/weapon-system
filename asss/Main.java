@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 import java.text.*;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 //normal stuff
 import java.util.Scanner;
@@ -464,6 +465,15 @@ public class Main {
         System.out.print("\u000C");
         System.out.print("\033[H\033[2J");
         Scanner in = new Scanner(System.in);
+        JFrame f = new JFrame();
+
+        String header[] = new String[] {"IC NUMBER", "NAME", "WEAPON BOUGHT", "QUANTITY", "TOTAL PRICE (RM)"};
+        DefaultTableModel dtm = new DefaultTableModel(header,0);
+        JTable table = new JTable(dtm);
+        f.setSize(550, 350);
+        f.add(new JScrollPane(table));
+        f.setVisible(true);
+        dtm.setRowCount(0);
 
         System.out.println("\t\t" + TEXT_YELLOW + "██████  ██    ██ ██████   ██████ ██   ██  █████  ███████ ███████");
         System.out.println("\t\t" + TEXT_YELLOW + "██   ██ ██    ██ ██   ██ ██      ██   ██ ██   ██ ██      ██     ");
@@ -511,6 +521,8 @@ public class Main {
             catObj = Category.search(weaObj.getCID());
             Sale obj = new Sale(catObj,weaObj,customerIC,customerName,quantity);
             data.enqueue(obj);
+            Object[] objs = {customerIC,customerName, weaObj.getWeaponName(), quantity, "RM"+ df.format(obj.totalPrice())};
+            dtm.addRow(objs);
 
             total += obj.totalPrice();
             System.out.println("\n\t\t\t\t"  + "=========== Total Price: RM" + df.format(total) + " ===========");
@@ -524,7 +536,6 @@ public class Main {
                 System.out.println("\t\t" + TEXT_YELLOW + "██████  ██    ██ ██████  ██      ███████ ███████ ███████ █████  ");
                 System.out.println("\t\t" + TEXT_YELLOW + "██      ██    ██ ██   ██ ██      ██   ██ ██   ██      ██ ██     ");
                 System.out.println("\t\t" + TEXT_YELLOW + "██       ██████  ██   ██  ██████ ██   ██ ██   ██ ███████ ███████" + TEXT_RESET);
-                displayAllWeapon();
 
                 System.out.println("\n\t\t\t\t"  + TEXT_YELLOW + "=========== PURCHASE DETAIL ===========" + TEXT_RESET);
                 System.out.println("\n\t\t\t\t"  + "Customer's IC: " + customerIC);
@@ -551,6 +562,12 @@ public class Main {
         System.out.print("\u000C");
         System.out.print("\033[H\033[2J");
         Scanner in = new Scanner(System.in);
+        JFrame f = new JFrame();
+
+        String header[] = new String[] {"IC NUMBER", "NAME", "WEAPON BOUGHT", "QUANTITY", "TOTAL PRICE (RM)"};
+        DefaultTableModel dtm = new DefaultTableModel(header,0);
+        JTable table = new JTable(dtm);
+        dtm.setRowCount(0);
 
         System.out.println("\t\t" + TEXT_YELLOW + "███████ ███████  █████  ██████   ██████ ██   ██     ██████  ███████  ██████  ██████  ██████  ██████ ");
         System.out.println("\t\t" + TEXT_YELLOW + "██      ██      ██   ██ ██   ██ ██      ██   ██     ██   ██ ██      ██      ██    ██ ██   ██ ██   ██");
@@ -578,12 +595,18 @@ public class Main {
 
             while(data != null) {
                 System.out.format("\t| %-15s | %-20s | %-20s | %-15s | %-20s|\n", data.getCustomerIC(), data.getCustomerName(), data.getWeaponName(), data.getQuantity(), "RM"+ df.format(data.totalPrice()));
+                Object[] objs = {data.getCustomerIC(), data.getCustomerName(), data.getWeaponName(), data.getQuantity(), "RM"+ df.format(data.totalPrice())};
+                dtm.addRow(objs);
                 total += data.totalPrice();
                 data = (Sale)record.getNext();
             }
             System.out.format("\t+-----------------+----------------------+----------------------+-----------------+---------------------+%n");
             System.out.println("\n\t\t\t\t=========== Total Purchase: RM" + df.format(total) + " ===========");
+            f.setSize(550, 350);
+            f.add(new JScrollPane(table));
+            f.setVisible(true);
             pressAnyKey();
+            f.setVisible(false);
             adminMenu();
         }
     }
@@ -1052,4 +1075,5 @@ public class Main {
         //simple :3
         mainMenu();
     }
+                      
 }
