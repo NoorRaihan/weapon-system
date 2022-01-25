@@ -550,10 +550,12 @@ public class Main {
             Sale.add(data);
             // System.out.println("Purchase checkout successfully!");
             JOptionPane.showMessageDialog(null, "Purchase checkout successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
+            f.setVisible(false);
             pressAnyKey();
             adminMenu();
         }
         else
+            f.setVisible(false);
             adminMenu();
     }
 
