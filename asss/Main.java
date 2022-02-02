@@ -552,11 +552,11 @@ public class Main {
             JOptionPane.showMessageDialog(null, "Purchase checkout successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
             f.setVisible(false);
             pressAnyKey();
-            adminMenu();
+            customerMenu();
         }
         else
             f.setVisible(false);
-            adminMenu();
+            customerMenu();
     }
 
     //search the the sales record
